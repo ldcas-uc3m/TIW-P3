@@ -1,0 +1,73 @@
+{
+	"info": {
+		"_postman_id": "e0d64939-03ac-4f9e-bf2d-855a2c0d753b",
+		"name": "equiposWS",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "30905051"
+	},
+	"item": [
+		{
+			"name": "getAllUsers",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "http://localhost:8082/users"
+			},
+			"response": []
+		},
+		{
+			"name": "getUserByName",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "http://localhost:8082/users/Frodo"
+			},
+			"response": []
+		},
+		{
+			"name": "saveUser",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"carlos\",\n    \"surname\": \"corrochano\",\n    \"address\": [\n        {\n            \"street\": \"segurilla, toledo\",\n            \"postcode\": 1111\n        },\n        {\n            \"street\": \"talavera, toledo\",\n            \"postcode\": 222\n        }\n    ]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:8082/user"
+			},
+			"response": []
+		},
+		{
+			"name": "deleteUser",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": "http://localhost:8082/user/1"
+			},
+			"response": []
+		},
+		{
+			"name": "updateUser",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"Bilbo\",\n    \"surname\": \"Bolsón Cerrado\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:8082/user/2"
+			},
+			"response": []
+		}
+	]
+}
