@@ -3,22 +3,42 @@ package es.uc3m.tiw.entities;
 
 import java.io.Serializable;
 
+import javax.persistence.Column;
 import javax.persistence.Embeddable;
+
+
 
 @Embeddable
 public class PlantillaKey implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    Equipo equipo;
-    Posicion posicion;
+    @Column(name = "equipo_nombre")
+    private String equipoNombre;
+
+    @Column(name = "posicion_nombre")
+    private String posicionNombre;
+
+
+    public PlantillaKey() {}
+    public PlantillaKey(String equipo, String posicion) {
+        this.equipoNombre = equipo;
+        this.posicionNombre = posicion;
+    }
+
+
+    public String getEquipoNombre() { return this.equipoNombre; }
+    public void setEquipo(String equipoNombre) { this.equipoNombre = equipoNombre; }
+
+    public String getPosicion() { return this.posicionNombre; }
+    public void setPosicionNombre(String posicionNombre) { this.posicionNombre = posicionNombre; }
 
 
     @Override
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + ((equipo == null) ? 0 : equipo.hashCode());
-        result = prime * result + ((posicion == null) ? 0 : posicion.hashCode());
+        result = prime * result + ((equipoNombre == null) ? 0 : equipoNombre.hashCode());
+        result = prime * result + ((posicionNombre == null) ? 0 : posicionNombre.hashCode());
 
         return result;
     }
@@ -32,16 +52,16 @@ public class PlantillaKey implements Serializable {
 
         PlantillaKey other = (PlantillaKey) obj;
 
-        if (equipo == null) {
-            if (other.equipo != null)
+        if (equipoNombre == null) {
+            if (other.equipoNombre != null)
                 return false;
-        } else if (!equipo.equals(other.equipo))
+        } else if (!equipoNombre.equals(other.equipoNombre))
             return false;
 
-        if (posicion == null) {
-            if (other.posicion != null)
+        if (posicionNombre == null) {
+            if (other.posicionNombre != null)
                 return false;
-        } else if (!posicion.equals(other.posicion))
+        } else if (!posicionNombre.equals(other.posicionNombre))
             return false;
 
             return true;

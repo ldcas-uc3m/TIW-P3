@@ -5,6 +5,7 @@ import java.io.Serializable;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.Table;
 
 
@@ -17,6 +18,18 @@ public class Equipo implements Serializable {
     @Id
     String nombre;
 
+    @Lob
+    private byte[] escudo;
+
+
+    public Equipo() {}
+
     public String getNombre() { return this.nombre; }
     public void setNombre(String nombre) { this.nombre = nombre; }
+
+    public byte[] getEscudo() { return this.escudo; }
+    public void setEscudo(byte[] escudo) { this.escudo = escudo; }
 }
+
+
+// TODO: Fix tildes 'n stuff (Atlético, etc)

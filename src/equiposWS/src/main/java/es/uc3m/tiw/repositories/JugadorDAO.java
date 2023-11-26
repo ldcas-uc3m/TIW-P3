@@ -13,5 +13,5 @@ public interface JugadorDAO extends CrudRepository<Jugador, String> {
 
     public List<Jugador> findAll();
 
-    public List<Jugador> findByDNI(String dni);
+    public Jugador findByDni(String dni);
 }

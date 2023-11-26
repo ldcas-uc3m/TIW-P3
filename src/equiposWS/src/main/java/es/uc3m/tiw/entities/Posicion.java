@@ -21,6 +21,10 @@ public class Posicion implements Serializable {
     @Column(name = "max_jugadores")
     int maxJugadores;
 
+
+    public Posicion() {}
+
+
     public String getNombre() { return this.nombre; }
     public void setNombre(String nombre) { this.nombre = nombre; }
 

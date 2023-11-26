@@ -1,71 +1,85 @@
 {
 	"info": {
-		"_postman_id": "e0d64939-03ac-4f9e-bf2d-855a2c0d753b",
+		"_postman_id": "4e3f74a3-3ca9-470a-ae4d-fb86d68d2960",
 		"name": "equiposWS",
-		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "30905051"
 	},
 	"item": [
 		{
-			"name": "getAllUsers",
+			"name": "getAllJugadores",
 			"request": {
 				"method": "GET",
 				"header": [],
-				"url": "http://localhost:8082/users"
+				"url": {
+					"raw": "http://localhost:8022/jugadores",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8022",
+					"path": [
+						"jugadores"
+					]
+				}
 			},
 			"response": []
 		},
 		{
-			"name": "getUserByName",
+			"name": "getAllEquipos",
 			"request": {
 				"method": "GET",
 				"header": [],
-				"url": "http://localhost:8082/users/Frodo"
+				"url": {
+					"raw": "http://localhost:8022/equipos",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8022",
+					"path": [
+						"equipos"
+					]
+				}
 			},
 			"response": []
 		},
 		{
-			"name": "saveUser",
+			"name": "getAllPosiciones",
 			"request": {
-				"method": "POST",
+				"method": "GET",
 				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n    \"name\": \"carlos\",\n    \"surname\": \"corrochano\",\n    \"address\": [\n        {\n            \"street\": \"segurilla, toledo\",\n            \"postcode\": 1111\n        },\n        {\n            \"street\": \"talavera, toledo\",\n            \"postcode\": 222\n        }\n    ]\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": "http://localhost:8082/user"
+				"url": {
+					"raw": "http://localhost:8022/posiciones",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8022",
+					"path": [
+						"posiciones"
+					]
+				}
 			},
 			"response": []
 		},
 		{
-			"name": "deleteUser",
+			"name": "getPlantillaEquipo",
 			"request": {
-				"method": "DELETE",
+				"method": "GET",
 				"header": [],
-				"url": "http://localhost:8082/user/1"
-			},
-			"response": []
-		},
-		{
-			"name": "updateUser",
-			"request": {
-				"method": "PUT",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n    \"name\": \"Bilbo\",\n    \"surname\": \"Bolsón Cerrado\"\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": "http://localhost:8082/user/2"
+				"url": {
+					"raw": "http://localhost:8022/plantilla/Atletico de Madrid",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8022",
+					"path": [
+						"plantilla",
+						"Atletico de Madrid"
+					]
+				}
 			},
 			"response": []
 		}
