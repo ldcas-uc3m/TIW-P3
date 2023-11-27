@@ -3,10 +3,10 @@ package es.uc3m.tiw.entities;
 
 import java.io.Serializable;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Lob;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 
@@ -17,6 +17,7 @@ public class Jugador implements Serializable {
 
     @Id
     private String dni;
+    // TODO: Validate DNI
 
     private String nombre;
     private String apellidos;
@@ -25,11 +26,11 @@ public class Jugador implements Serializable {
     @Lob
     private byte[] imagen;
 
-    @ManyToOne
-    private Posicion posicion;
+    @Column(name = "posicion_nombre", nullable = false)
+    private String posicionNombre;
 
-    @ManyToOne
-    private Equipo equipo;
+    @Column(name = "equipo_nombre", nullable = false)
+    private String equipoNombre;
 
 
     public Jugador() {}
@@ -50,10 +51,10 @@ public class Jugador implements Serializable {
     public byte[] getImagen() { return this.imagen; }
     public void setImagen(byte[] imagen) { this.imagen = imagen; }
 
-    public Posicion getPosicion() { return this.posicion; }
-    public void setPosicion(Posicion posicion) { this.posicion = posicion; }
+    public String getPosicionNombre() { return this.posicionNombre; }
+    public void setPosicionNombre(String posicionNombre) { this.posicionNombre = posicionNombre; }
 
-    public Equipo getEquipo() { return this.equipo; }
-    public void setEquipo(Equipo equipo) { this.equipo = equipo; }
+    public String getEquipoNombre() { return this.equipoNombre; }
+    public void setEquipoNombre(String equipoNombre) { this.equipoNombre = equipoNombre; }
 
 }
