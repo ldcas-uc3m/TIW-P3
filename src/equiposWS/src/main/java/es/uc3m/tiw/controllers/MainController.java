@@ -4,6 +4,7 @@ package es.uc3m.tiw.controllers;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
@@ -42,6 +43,50 @@ public class MainController {
     PosicionDAO daoPos;
 
 
+    // TODO: gestión de errores con códigos
+    private Map<String, String> generateError(String code, String message) {
+		Map<String, String> error = new HashMap<>();
+		error.put("code", code);
+		error.put("message", message);
+
+		return error;
+	}
+
+    /*
+     * Removes a Jugador from his Equipo's Plantilla.
+     * Must validate if the Plantilla and Equipo exists beforehand.
+     */
+    private void removeJugadorFromPlantilla(Jugador jugador) throws IllegalStateException {
+        Plantilla plantilla = daoPlan.findByPlantillaId(new PlantillaKey(jugador.getEquipoNombre(), jugador.getPosicionNombre()));
+
+        int num_jugadores = plantilla.getNumJugadores();
+        if (num_jugadores <= 0) {
+            throw new IllegalStateException();
+        }
+
+        plantilla.setNumJugadores(num_jugadores - 1);
+    }
+
+    /*
+     * Adds a Jugador from his Equipo's Plantilla.
+     * Must validate if the Plantilla and Equipo exists beforehand.
+     */
+    private void addJugadorToPlantilla(Jugador jugador) throws IndexOutOfBoundsException {
+
+        String posicion_nombre = jugador.getPosicionNombre();
+        String equipo_nombre = jugador.getEquipoNombre();
+
+        Posicion posicion = daoPos.findByNombre(posicion_nombre);
+        Plantilla plantilla = daoPlan.findByPlantillaId(new PlantillaKey(equipo_nombre, posicion_nombre));
+
+        int num_jugadores = plantilla.getNumJugadores();
+        if (plantilla.getNumJugadores() >= posicion.getMaxJugadores())
+            throw new IndexOutOfBoundsException();
+
+        plantilla.setNumJugadores(num_jugadores + 1);
+    }
+
+
 
     /* JUGADORES */
 
@@ -60,13 +105,11 @@ public class MainController {
     public ResponseEntity<?> getJugadoresEquipo(@PathVariable String equipo_nombre) {
 
         // search equipo
-        Equipo equipo = daoEq.findByNombre(equipo_nombre);
-
-        if (equipo == null)
+        if (!daoEq.existsById(equipo_nombre))
             return new ResponseEntity<>("Equipo '" + equipo_nombre + "' not found", HttpStatus.BAD_REQUEST);
 
+        // get jugadores
         List<Jugador> jugadores = daoJug.findByEquipoNombre(equipo_nombre);
-
         if (jugadores.isEmpty())
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 
@@ -76,61 +119,61 @@ public class MainController {
     @GetMapping("/jugador/{dni}")
     public ResponseEntity<Jugador> getJugador(@PathVariable String dni) {
 
-        Jugador jugador = daoJug.findByDni(dni);
+        Optional<Jugador> jugador = daoJug.findById(dni);
 
-        if (jugador == null)
+        if (jugador.isEmpty())
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 
-        return new ResponseEntity<>(jugador, HttpStatus.OK);
+        return new ResponseEntity<>(jugador.get(), HttpStatus.OK);
     }
 
 
     @PostMapping("/jugador")
     public ResponseEntity<?> addJugador(@RequestBody @Validated Jugador nu_jugador) {
-        // search equipo
+
+        // validate equipo
         String equipo_nombre = nu_jugador.getEquipoNombre();
-        if (daoEq.findByNombre(equipo_nombre) == null)
+        if (daoEq.existsById(equipo_nombre))
             return new ResponseEntity<>("Equipo '" + equipo_nombre + "' not found", HttpStatus.BAD_REQUEST);
 
-        // search posicion
+        // validate posicion
         String posicion_nombre = nu_jugador.getPosicionNombre();
-        Posicion posicion = daoPos.findByNombre(posicion_nombre);
-
-        if (posicion == null)
+        if (!daoPos.existsById(posicion_nombre))
             return new ResponseEntity<>("Posicion '" + posicion_nombre + "' not found", HttpStatus.BAD_REQUEST);
 
         // check if jugador exists
-        if (daoJug.findByDni(nu_jugador.getDni()) != null)
+        if (!daoJug.existsById(nu_jugador.getDni()))
             return new ResponseEntity<>("Jugador '" + nu_jugador.getDni() + "' already exists", HttpStatus.NOT_FOUND);
 
         // update plantilla
-        Plantilla plantilla = daoPlan.findByPlantillaId(new PlantillaKey(equipo_nombre, posicion_nombre));
-
-        if (plantilla.getNumJugadores() >= posicion.getMaxJugadores())
-            return new ResponseEntity<>("Posicion '" + posicion_nombre + "' for equipo '" + equipo_nombre + "' is already full", HttpStatus.BAD_REQUEST);
-
-        plantilla.setNumJugadores(plantilla.getNumJugadores() + 1);
-
         try {
-            daoJug.save(nu_jugador);
+            addJugadorToPlantilla(nu_jugador);
+        }
+        catch (IndexOutOfBoundsException e) {
+            return new ResponseEntity<>("Posicion '" + posicion_nombre + "' for equipo '" + equipo_nombre + "' is already full", HttpStatus.BAD_REQUEST);
+        }
+
+        // save jugador
+        try {
+            Jugador saved_jugador = daoJug.save(nu_jugador);
+
+            return new ResponseEntity<>(saved_jugador, HttpStatus.CREATED);
         }
         catch (DataAccessException ex) {
             return new ResponseEntity<>(ex.getMostSpecificCause().getMessage(), HttpStatus.BAD_REQUEST);
         }
-
-        return new ResponseEntity<>(nu_jugador, HttpStatus.CREATED);
-
     }
 
 
     @DeleteMapping("/jugador/{dni}")
     public ResponseEntity<?> deleteJugador(@PathVariable String dni) {
 
-        Jugador jugador = daoJug.findByDni(dni);
+        Optional<Jugador> jugador = daoJug.findById(dni);
 
-        if (jugador == null)
+        if (jugador.isEmpty())
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 
+        // delete jugador
         try {
             daoJug.deleteById(dni);
         }
@@ -138,9 +181,68 @@ public class MainController {
             return new ResponseEntity<>(ex.getMostSpecificCause().getMessage(), HttpStatus.BAD_REQUEST);
         }
 
-        return new ResponseEntity<>(jugador, HttpStatus.OK);
+        // update plantilla
+        try {
+            removeJugadorFromPlantilla(jugador.get());
+        }
+        catch (IllegalStateException e) {
+            return new ResponseEntity<>("Se ha llegado al límite inferior de jugadores", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+        return new ResponseEntity<>(jugador.get(), HttpStatus.OK);
     }
 
+
+    @PutMapping("/jugador")
+    public ResponseEntity<?> updateJugador(@RequestBody Jugador nuJugador) {
+
+        // check if jugador exists
+		Optional<Jugador> jugador = daoJug.findById(nuJugador.getDni());
+		if (jugador.isEmpty()) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+        Jugador oldJugador = jugador.get();
+
+        // validate equipo
+        String equipo_nombre = nuJugador.getEquipoNombre();
+        if (!daoEq.existsById(equipo_nombre))
+            return new ResponseEntity<>("Equipo '" + equipo_nombre + "' not found", HttpStatus.BAD_REQUEST);
+
+        // validate posicion
+        String posicion_nombre = nuJugador.getPosicionNombre();
+        if (!daoPos.existsById(posicion_nombre))
+            return new ResponseEntity<>("Posicion '" + posicion_nombre + "' not found", HttpStatus.BAD_REQUEST);
+
+        // update posicion, if changed
+        if (
+            (oldJugador.getPosicionNombre() != nuJugador.getPosicionNombre()) ||
+            (oldJugador.getEquipoNombre() != nuJugador.getEquipoNombre())
+        ) {
+            try {
+                removeJugadorFromPlantilla(oldJugador);
+            }
+            catch (IllegalStateException e) {
+                return new ResponseEntity<>("Se ha llegado al límite inferior de jugadores", HttpStatus.INTERNAL_SERVER_ERROR);
+            }
+
+            try {
+                addJugadorToPlantilla(nuJugador);
+            }
+            catch (IndexOutOfBoundsException e) {
+                return new ResponseEntity<>("Posicion '" + posicion_nombre + "' for equipo '" + equipo_nombre + "' is already full", HttpStatus.BAD_REQUEST);
+            }
+        }
+
+		// save it
+		try {
+			Jugador savedJugador = daoJug.save(nuJugador);
+
+			return new ResponseEntity<>(savedJugador, HttpStatus.OK);
+
+		} catch (DataAccessException ex) {
+            return new ResponseEntity<>(ex.getMostSpecificCause().getMessage(), HttpStatus.BAD_REQUEST);
+		}
+	}
 
 
     /* EQUIPOS */
@@ -161,12 +263,12 @@ public class MainController {
 
         // search equipo
         String equipo_nombre = nu_equipo.getNombre();
-        if (daoEq.findByNombre(equipo_nombre) != null)
+        if (!daoEq.existsById(equipo_nombre))
             return new ResponseEntity<>("Equipo '" + equipo_nombre + "' already exists", HttpStatus.BAD_REQUEST);
 
         try {
             // add equipo
-            daoEq.save(nu_equipo);
+            Equipo saved_equipo = daoEq.save(nu_equipo);
 
             // generate new posiciones in plantilla
             List<Posicion> posiciones = daoPos.findAll();
@@ -174,12 +276,13 @@ public class MainController {
             for (Posicion posicion : posiciones) {
                 daoPlan.save(new Plantilla(equipo_nombre, posicion.getNombre()));
             }
+
+            return new ResponseEntity<>(saved_equipo, HttpStatus.CREATED);
         }
         catch (DataAccessException ex) {
             return new ResponseEntity<>(ex.getMostSpecificCause().getMessage(), HttpStatus.BAD_REQUEST);
         }
 
-        return new ResponseEntity<>(nu_equipo, HttpStatus.CREATED);
     }
 
 
@@ -203,12 +306,8 @@ public class MainController {
     @GetMapping("/plantilla/{equipo_nombre}")
     public ResponseEntity<?> getPlantillaEquipo(@PathVariable String equipo_nombre) {
 
-        // TODO: include jugadores in plantilla
-
         // search equipo
-        Equipo equipo = daoEq.findByNombre(equipo_nombre);
-
-        if (equipo == null)
+        if (!daoEq.existsById(equipo_nombre))
             return new ResponseEntity<>("Equipo '" + equipo_nombre + "' not found", HttpStatus.BAD_REQUEST);
 
 
@@ -222,12 +321,7 @@ public class MainController {
     }
 
 
+    @GetMapping("/coffee")
+    public ResponseEntity<HttpStatus> coffe() { return new ResponseEntity<>(HttpStatus.I_AM_A_TEAPOT); }
 
-    // TODO: gestión de errores con códigos
-    private Map<String, String> generarError(String code, String message) {
-		Map<String, String> error = new HashMap<>();
-		error.put("code", code);
-		error.put("message", message);
-		return error;
-	}
 }

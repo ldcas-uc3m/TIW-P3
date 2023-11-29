@@ -1,4 +1,5 @@
-
+# equiposWS
+WebService for DB access.
 
 
 ## Instalation
@@ -25,7 +26,7 @@
             ```powershell
             C:\> & <mysql-path>bin\mysql -u root
             ```
-        If you have set a password for root on installation (here we'll assume the password is `root`), add the flag `-proot`.
+        If you have set a password for root on installation (here we'll assume the password is `root`), add the flag `-proot`. If your user/password is different from `root:root`, remember to set it up in [`application.properties`](src/main/resources/application.properties) (`spring.datasource.username` & `spring.datasource.password`), and double check the MySQL port in `spring.datasource.url`.
     2. Set the password.
         ```sql
         mysql> ALTER USER 'root'@'localhost' IDENTIFIED BY 'root';
@@ -47,7 +48,7 @@
             ```sql
             mysql> source <path-to>\db_create.sql
             mysql> exit;
-6. Install [Postman](https://www.postman.com/downloads/). If you're using Linux, make sure to also install `openssl`.
+6. (OPTIONAL) Install [Postman](https://www.postman.com/downloads/). If you're using Linux, make sure to also install `openssl`.
 
 
 ## Execution
