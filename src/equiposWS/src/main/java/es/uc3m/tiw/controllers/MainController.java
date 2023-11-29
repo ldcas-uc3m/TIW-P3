@@ -133,7 +133,7 @@ public class MainController {
 
         // validate equipo
         String equipo_nombre = nu_jugador.getEquipoNombre();
-        if (daoEq.existsById(equipo_nombre))
+        if (!daoEq.existsById(equipo_nombre))
             return new ResponseEntity<>("Equipo '" + equipo_nombre + "' not found", HttpStatus.BAD_REQUEST);
 
         // validate posicion
@@ -142,7 +142,7 @@ public class MainController {
             return new ResponseEntity<>("Posicion '" + posicion_nombre + "' not found", HttpStatus.BAD_REQUEST);
 
         // check if jugador exists
-        if (!daoJug.existsById(nu_jugador.getDni()))
+        if (daoJug.existsById(nu_jugador.getDni()))
             return new ResponseEntity<>("Jugador '" + nu_jugador.getDni() + "' already exists", HttpStatus.NOT_FOUND);
 
         // update plantilla
@@ -263,7 +263,7 @@ public class MainController {
 
         // search equipo
         String equipo_nombre = nu_equipo.getNombre();
-        if (!daoEq.existsById(equipo_nombre))
+        if (daoEq.existsById(equipo_nombre))
             return new ResponseEntity<>("Equipo '" + equipo_nombre + "' already exists", HttpStatus.BAD_REQUEST);
 
         try {

@@ -30,6 +30,3 @@ public class Equipo implements Serializable {
     public byte[] getEscudo() { return this.escudo; }
     public void setEscudo(byte[] escudo) { this.escudo = escudo; }
 }
-
-
-// TODO: Fix tildes 'n stuff (Atlético, etc)
