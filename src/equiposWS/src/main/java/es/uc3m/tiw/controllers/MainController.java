@@ -143,7 +143,7 @@ public class MainController {
 
         // check if jugador exists
         if (daoJug.existsById(nu_jugador.getDni()))
-            return new ResponseEntity<>("Jugador '" + nu_jugador.getDni() + "' already exists", HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>("Jugador '" + nu_jugador.getDni() + "' already exists", HttpStatus.BAD_REQUEST);
 
         // update plantilla
         try {
@@ -258,6 +258,9 @@ public class MainController {
     }
 
 
+    // TODO: getEquipoImage
+
+
     @PostMapping("/equipo")
     public ResponseEntity<?> addEquipo(@RequestBody @Validated Equipo nu_equipo) {
 
@@ -299,6 +302,8 @@ public class MainController {
         return new ResponseEntity<>(posiciones, HttpStatus.OK);
     }
 
+
+    // TODO: getEquipoPosiciones
 
 
     /* PLANTILLAS */
