@@ -18,11 +18,15 @@ public class Plantilla implements Serializable {
     @EmbeddedId
     private PlantillaKey plantillaId;
 
-    @Column(name = "num_jugadores")
+    @Column(name = "num_jugadores", nullable = false)
     private int numJugadores = 0;
 
 
     public Plantilla() {}
+
+    public Plantilla(String equipo, String posicion) {
+        this.plantillaId = new PlantillaKey(equipo, posicion);
+    }
 
 
     public PlantillaKey getPlantillaID() { return this.plantillaId; }

@@ -19,8 +19,12 @@ public class Jugador implements Serializable {
     private String dni;
     // TODO: Validate DNI
 
+    @Column(nullable = false)
     private String nombre;
+
+    @Column(nullable = false)
     private String apellidos;
+
     private String alias;
 
     @Lob

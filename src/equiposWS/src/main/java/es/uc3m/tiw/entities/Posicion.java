@@ -18,7 +18,7 @@ public class Posicion implements Serializable {
     @Id
     String nombre;
 
-    @Column(name = "max_jugadores")
+    @Column(name = "max_jugadores", nullable = false)
     int maxJugadores;
 
 

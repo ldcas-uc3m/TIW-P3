@@ -1,6 +1,9 @@
 package es.uc3m.tiw.controllers;
 
+
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
@@ -23,6 +26,9 @@ import es.uc3m.tiw.repositories.PosicionDAO;
 @RestController
 @CrossOrigin
 public class MainController {
+
+    /* REPOSITORIOS */
+
     @Autowired
     JugadorDAO daoJug;
 
@@ -34,6 +40,7 @@ public class MainController {
 
     @Autowired
     PosicionDAO daoPos;
+
 
 
     /* JUGADORES */
@@ -66,14 +73,23 @@ public class MainController {
         return new ResponseEntity<>(jugadores, HttpStatus.OK);
     }
 
+    @GetMapping("/jugador/{dni}")
+    public ResponseEntity<Jugador> getJugador(@PathVariable String dni) {
+
+        Jugador jugador = daoJug.findByDni(dni);
+
+        if (jugador == null)
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+
+        return new ResponseEntity<>(jugador, HttpStatus.OK);
+    }
+
 
     @PostMapping("/jugador")
-    public ResponseEntity<?> saveJugador(@RequestBody @Validated Jugador nu_jugador) {
+    public ResponseEntity<?> addJugador(@RequestBody @Validated Jugador nu_jugador) {
         // search equipo
         String equipo_nombre = nu_jugador.getEquipoNombre();
-        Equipo equipo = daoEq.findByNombre(equipo_nombre);
-
-        if (equipo == null)
+        if (daoEq.findByNombre(equipo_nombre) == null)
             return new ResponseEntity<>("Equipo '" + equipo_nombre + "' not found", HttpStatus.BAD_REQUEST);
 
         // search posicion
@@ -107,6 +123,26 @@ public class MainController {
     }
 
 
+    @DeleteMapping("/jugador/{dni}")
+    public ResponseEntity<?> deleteJugador(@PathVariable String dni) {
+
+        Jugador jugador = daoJug.findByDni(dni);
+
+        if (jugador == null)
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+
+        try {
+            daoJug.deleteById(dni);
+        }
+        catch (DataAccessException ex) {
+            return new ResponseEntity<>(ex.getMostSpecificCause().getMessage(), HttpStatus.BAD_REQUEST);
+        }
+
+        return new ResponseEntity<>(jugador, HttpStatus.OK);
+    }
+
+
+
     /* EQUIPOS */
 
     @GetMapping("/equipos")
@@ -117,6 +153,33 @@ public class MainController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 
         return new ResponseEntity<>(equipos, HttpStatus.OK);
+    }
+
+
+    @PostMapping("/equipo")
+    public ResponseEntity<?> addEquipo(@RequestBody @Validated Equipo nu_equipo) {
+
+        // search equipo
+        String equipo_nombre = nu_equipo.getNombre();
+        if (daoEq.findByNombre(equipo_nombre) != null)
+            return new ResponseEntity<>("Equipo '" + equipo_nombre + "' already exists", HttpStatus.BAD_REQUEST);
+
+        try {
+            // add equipo
+            daoEq.save(nu_equipo);
+
+            // generate new posiciones in plantilla
+            List<Posicion> posiciones = daoPos.findAll();
+
+            for (Posicion posicion : posiciones) {
+                daoPlan.save(new Plantilla(equipo_nombre, posicion.getNombre()));
+            }
+        }
+        catch (DataAccessException ex) {
+            return new ResponseEntity<>(ex.getMostSpecificCause().getMessage(), HttpStatus.BAD_REQUEST);
+        }
+
+        return new ResponseEntity<>(nu_equipo, HttpStatus.CREATED);
     }
 
 
@@ -132,6 +195,7 @@ public class MainController {
 
         return new ResponseEntity<>(posiciones, HttpStatus.OK);
     }
+
 
 
     /* PLANTILLAS */
@@ -157,4 +221,13 @@ public class MainController {
         return new ResponseEntity<>(plantilla, HttpStatus.OK);
     }
 
+
+
+    // TODO: gestión de errores con códigos
+    private Map<String, String> generarError(String code, String message) {
+		Map<String, String> error = new HashMap<>();
+		error.put("code", code);
+		error.put("message", message);
+		return error;
+	}
 }
