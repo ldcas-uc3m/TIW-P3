@@ -2,14 +2,14 @@
 WebService for DB access.
 
 ## API specification
-<!-- TODO -->
+TODO
 
 
 ## Instalation
 1. Install [Maven](https://maven.apache.org/install.html) and [Java SE 17](https://www.oracle.com/java/technologies/javase/jdk17-archive-downloads.html) (or [OpenJDK 17](https://openjdk.org/projects/jdk/17/)).
-2. Remember to set JAVA_HOME.
+2. Remember to set the `JAVA_HOME` environment variable.
 3. Download and install [MySQL Community Server 8](https://dev.mysql.com/downloads/mysql/) and, optionally, [MySQL Workbench](https://dev.mysql.com/downloads/workbench/).
-4. Start MySQL server (if it's not started already)
+4. Start MySQL server (if it's not started already):
     - Linux
         ```bash
         $ sudo systemctl start mysqld
@@ -18,8 +18,7 @@ WebService for DB access.
         ```powershell
         C:\> & <mysql-path>\bin\mysqld
         ```
-5. Create and import the database  
-    If you haven't set up a password:
+5. If you haven't set up a password:
     1. Access the MySQL console
         - Linux
             ```bash
@@ -29,7 +28,6 @@ WebService for DB access.
             ```powershell
             C:\> & <mysql-path>bin\mysql -u root
             ```
-        If you have set a password for root on installation (here we'll assume the password is `root`), add the flag `-proot`. If your user/password is different from `root:root`, remember to set it up in [`application.properties`](src/main/resources/application.properties) (`spring.datasource.username` & `spring.datasource.password`), and double check the MySQL port in `spring.datasource.url`.
     2. Set the password.
         ```sql
         mysql> ALTER USER 'root'@'localhost' IDENTIFIED BY 'root';
@@ -39,19 +37,22 @@ WebService for DB access.
         ```sql
         mysql> exit;
         ```
-    4. Use the [`db_create.sql`](db_create.sql) script to create the tables inside of the `usersdbSP` database.
-        - Linux
-            ```bash
-            $ mysql -u root -proot < <path-to>/discos.sql
-            ```
-        - Windows
-            ```powershell
-            C:\> & <mysql-path>\bin\mysql -u root -proot
-            ```
-            ```sql
-            mysql> source <path-to>\db_create.sql
-            mysql> exit;
-6. (OPTIONAL) Install [Postman](https://www.postman.com/downloads/). If you're using Linux, make sure to also install `openssl`.
+6. Use the [`db_create.sql`](db_create.sql) script to create the `tiwp3` database and the tables inside the database.
+
+    If your MySQL user/password is different from `root:root`, remember to set it up in [`application.properties`](src/main/resources/application.properties) (`spring.datasource.username` & `spring.datasource.password`), and double check the MySQL port in `spring.datasource.url`.
+    - Linux
+        ```bash
+        $ mysql -u root -proot < db_create.sql
+        ```
+    - Windows
+        ```powershell
+        C:\> & <mysql-path>\bin\mysql -u root -proot
+        ```
+        ```sql
+        mysql> source db_create.sql
+        mysql> exit;
+        ```
+8. (OPTIONAL) Install [Postman](https://www.postman.com/downloads/). If you're using Linux, make sure to also install `openssl`.
 
 
 ### VSCode extensions (optional)
