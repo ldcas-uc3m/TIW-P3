@@ -1,11 +1,14 @@
 # equiposWS
 WebService for DB access.
 
+## API specification
+<!-- TODO -->
+
 
 ## Instalation
-1. Install [Maven](https://maven.apache.org/install.html).
+1. Install [Maven](https://maven.apache.org/install.html) and [Java SE 17](https://www.oracle.com/java/technologies/javase/jdk17-archive-downloads.html) (or [OpenJDK 17](https://openjdk.org/projects/jdk/17/)).
 2. Remember to set JAVA_HOME.
-3. Download and install [MySQL Community Server 8.1.0](https://dev.mysql.com/downloads/mysql/) and, optionally, [MySQL Workbench](https://dev.mysql.com/downloads/workbench/).
+3. Download and install [MySQL Community Server 8](https://dev.mysql.com/downloads/mysql/) and, optionally, [MySQL Workbench](https://dev.mysql.com/downloads/workbench/).
 4. Start MySQL server (if it's not started already)
     - Linux
         ```bash
@@ -51,14 +54,17 @@ WebService for DB access.
 6. (OPTIONAL) Install [Postman](https://www.postman.com/downloads/). If you're using Linux, make sure to also install `openssl`.
 
 
-## Execution
-```
-mvn spring-boot:run
-```
-
-Import the collection [`equiposWS.postman_collection.json`](equiposWS.postman_collection.json) into [Postman](https://www.postman.com/downloads/) in order to run the requests (you could also use `curl` to generate the requests).
-
-
-VsCode extensions:
+### VSCode extensions (optional)
 - [Extension Pack for Java](https://marketplace.visualstudio.com/items?itemName=vscjava.vscode-java-pack)
 - [Spring Boot Extension Pack](https://marketplace.visualstudio.com/items?itemName=vmware.vscode-boot-dev-pack)
+
+
+
+## Execution
+1. Remember to launch MySQL.
+2. Run the WS with:
+    ```
+    mvn spring-boot:run
+    ```
+
+You can import the collection [`equiposWS.postman_collection.json`](equiposWS.postman_collection.json) into [Postman](https://www.postman.com/downloads/) in order to run the predefined requests (you could also use `curl` to generate the requests).
