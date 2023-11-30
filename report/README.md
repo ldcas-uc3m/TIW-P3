@@ -26,12 +26,17 @@ latexmk -cd -shell-escape -pdf report.tex
 First you must install Mongo.
 - Go to the following [link](https://www.mongodb.com/try/download/community), select the desired package (version and OS) and download it.
 - Execute it. Select the Complete version and Run service as Network Service user. Later make sure to select the option to download Compass.
-- Copy the route to Mongo server. The default one should be the following depending on the version downloaded: C:\Program Files\MongoDB\Server\6.0\bin
+- Copy the route to Mongo server. The default one should be the following depending on the version downloaded: C:\Program Files\MongoDB\Server\5.0\bin
 - Go to "Este Equipo> Propiedades> Confifuración avanzada del sistema> variables de entorno" and add a new path by copying the previous one.
 - After setting the path, open the terminal and run the following command in order to initialize the server
      ```
      mongod
     ```
+- After having initialized the server you can access mongo with the following command:
+    ```
+     mongo
+    ```
+   
 
 
 
