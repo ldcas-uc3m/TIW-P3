@@ -20,3 +20,20 @@ To compile the report, use the command:
 ```
 latexmk -cd -shell-escape -pdf report.tex
 ```
+
+## Install MongoDB
+
+First you must install Mongo.
+- Go to the following [link](https://www.mongodb.com/try/download/community), select the desired package (version and OS) and download it.
+- Execute it. Select the Complete version and Run service as Network Service user. Later make sure to select the option to download Compass.
+- Create a folder and a subfolder inside C:\ with the following names: data\db
+- Copy the route to Mongo server. The default one should be the following depending on the version downloaded: C:\Program Files\MongoDB\Server\6.0\bin
+- Go to "Este Equipo> Propiedades> Confifuración avanzada del sistema> variables de entorno" and add a new path by copying the previous one.
+- After setting the path, open the terminal and run the following command in order to initialize the server
+     ```
+     mongod
+    ```
+
+
+
+
