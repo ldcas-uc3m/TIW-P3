@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Jugadores de la base de datos</title>
+
+    <link rel="stylesheet"
+          href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+          integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+          crossorigin="anonymous">
+
+</head>
+
+<body style="margin-left: 5%; margin-right: 5%; margin-top: 15px">
+<h2>Tabla con los jugadores</h2>
+
+<a th:href="@{/showFormEvent}" class="btn btn-primary btn-sm mb-"> Añadir jugadores </a>
+
+<table style="border: 1px" class = "table table-striped table-responsive-md">
+    <thead>
+    <tr>
+        <th>
+            <a>DNI</a>
+        </th>
+        <th>
+            <a>Nombre</a>
+        </th>
+        <th>
+            <a>Apellidos</a>
+        </th>
+        <th>
+            <a>Alias</a>
+        </th>
+        <th>
+            <a>Imagen</a>
+        </th>
+        <th>
+            <a>Posición</a>
+        </th>
+        <th>
+            <a>Equipo</a>
+        </th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="jugadores : ${equiposLista}">
+        <td th:text="${jugadores.id}"></td>
+        <td th:text="${jugadores.nombre}"></td>
+        <td th:text="${jugadores.apellidos}"></td>
+        <td th:text="${jugadores.alias}"></td>
+        <td th:text="${jugadores.imagen}"></td>
+        <td th:text="${jugadores.posicion_nombre}"></td>
+        <td th:text="${jugadores.equipo_nombre}"></td>
+        <td> <a th:href="@{/showFormForUpdateJugador/{id}(id=${jugadores.id})}" class="btn btn-primary">Update</a>
+            <form th:action="@{/delete-jugador/{id}(id=${jugadores.id})}" method="post"><button type="submit" class="btn btn-danger">Delete</button>
+            </form>
+        </td>
+    </tr>
+    </tbody>
+</table>
+<a th:href="@{/}" class="btn btn-primary btn-sm mb-">Atrás</a>
+
+</body>
+</html>
