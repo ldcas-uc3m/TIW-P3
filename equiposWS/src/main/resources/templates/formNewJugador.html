@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Añade nuevo jugador</title>
+    <link rel="stylesheet"
+          href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+          integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+          crossorigin="anonymous">
+</head>
+<body>
+<div class="container">
+    <h1>Añade un nuevo jugador</h1>
+    <hr>
+
+    <form action="#" th:action="@{/post-jugador}" th:object="${jugador}" method="POST">
+        <label for="id">Introduce el DNI del jugador</label>
+        <input type="text" th:field="*{id_jugador}"
+               id="id" placeholder="Introduce el id del evento" class="form-control mb- col-">
+
+        <label for="nombre">Introduce el nombre del jugador</label>
+        <input type="text" th:field="*{nombre}"
+               id="nombre" placeholder="Introduce el nombre" class="form-control mb- col-">
+
+        <label for="apellidos">Introduce los apellidos del jugador</label>
+        <input type="text" th:field="*{apellidos}"
+               id="apellido" placeholder="Introduce la categoria" class="form-control mb- col-">
+
+        <label for="alias">Introduce el alias del jugador</label>
+        <input type="text" th:field="*{alias}"
+               id="alias" placeholder="Introduce el alias" class="form-control mb- col-">
+
+        <label for="equipo">Introduce el equipo del jugador</label>
+        <input type="text" th:field="*{equipo}"
+               id="equipo" placeholder="Introduce el equipo" class="form-control mb- col-">
+       
+        <label for="posicion">Selecciona la posición del jugador</label>
+        <select th:field="*{posicion}" id="posicion" class="form-control mb- col-">
+               <option value="portero">Portero</option>
+               <option value="defensa">Defensa</option>
+               <option value="mediocentro">Mediocentro</option>
+               <option value="delantero">Delantero</option>
+        </select>
+               
+        <label for="ima">Introduce la imagen</label>
+        <input type="text" th:field="*{imagen}" 
+              id="ima" placeholder="Introduce la imagen" class="form-control mb-4 col-4">
+
+
+        <button type="submit" class="btn btn-info col-2"> Guardar </button>
+    </form>
+
+    <hr>
+
+    <a th:href = "@{/}"> Atras</a>
+</div>
+</body>
+</html>
