@@ -12,6 +12,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.http.MediaType;
+
 
 import es.uc3m.tiw.entities.Equipo;
 import es.uc3m.tiw.entities.Jugador;
@@ -22,6 +24,7 @@ import es.uc3m.tiw.repositories.EquipoDAO;
 import es.uc3m.tiw.repositories.JugadorDAO;
 import es.uc3m.tiw.repositories.PlantillaDAO;
 import es.uc3m.tiw.repositories.PosicionDAO;
+import es.uc3m.tiw.utils.ValidadorDNI;
 
 
 @RestController
@@ -43,7 +46,6 @@ public class MainController {
     PosicionDAO daoPos;
 
 
-    // TODO: gestión de errores con códigos
     private Map<String, String> generateError(String code, String message) {
 		Map<String, String> error = new HashMap<>();
 		error.put("code", code);
@@ -90,23 +92,27 @@ public class MainController {
 
     /* JUGADORES */
 
-    @GetMapping("/jugadores")
-    public ResponseEntity<List<Jugador>> getAllJugadores() {
+    @GetMapping(path = "/jugadores", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> getAllJugadores() {
 
         List<Jugador> jugadores = daoJug.findAll();
 
         if (jugadores.isEmpty())
-            return new ResponseEntity<>(jugadores, HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 
         return new ResponseEntity<>(jugadores, HttpStatus.OK);
     }
 
-    @GetMapping("/jugadores/{equipo_nombre}")
+    @GetMapping(path = "/jugadores/{equipo_nombre}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> getJugadoresEquipo(@PathVariable String equipo_nombre) {
 
         // search equipo
-        if (!daoEq.existsById(equipo_nombre))
-            return new ResponseEntity<>("Equipo '" + equipo_nombre + "' not found", HttpStatus.BAD_REQUEST);
+        if (!daoEq.existsById(equipo_nombre)) {
+            String msg = "Equipo '" + equipo_nombre + "' not found";
+
+            System.err.println(msg);
+            return new ResponseEntity<>(generateError("EQUIPO_NOT_FOUND", msg), HttpStatus.BAD_REQUEST);
+        }
 
         // get jugadores
         List<Jugador> jugadores = daoJug.findByEquipoNombre(equipo_nombre);
@@ -116,7 +122,7 @@ public class MainController {
         return new ResponseEntity<>(jugadores, HttpStatus.OK);
     }
 
-    @GetMapping("/jugador/{dni}")
+    @GetMapping(path = "/jugador/{dni}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Jugador> getJugador(@PathVariable String dni) {
 
         Optional<Jugador> jugador = daoJug.findById(dni);
@@ -128,29 +134,53 @@ public class MainController {
     }
 
 
-    @PostMapping("/jugador")
+    @PostMapping(path = "/jugador", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> addJugador(@RequestBody @Validated Jugador nu_jugador) {
 
         // validate equipo
         String equipo_nombre = nu_jugador.getEquipoNombre();
-        if (!daoEq.existsById(equipo_nombre))
-            return new ResponseEntity<>("Equipo '" + equipo_nombre + "' not found", HttpStatus.BAD_REQUEST);
+        if (!daoEq.existsById(equipo_nombre)) {
+            String msg = "Equipo '" + equipo_nombre + "' not found";
+
+            System.err.println(msg);
+            return new ResponseEntity<>(generateError("EQUIPO_NOT_FOUND", msg), HttpStatus.BAD_REQUEST);
+        }
 
         // validate posicion
         String posicion_nombre = nu_jugador.getPosicionNombre();
-        if (!daoPos.existsById(posicion_nombre))
-            return new ResponseEntity<>("Posicion '" + posicion_nombre + "' not found", HttpStatus.BAD_REQUEST);
+        if (!daoPos.existsById(posicion_nombre)){
+            String msg = "Posicion '" + posicion_nombre + "' not found";
 
+            System.err.println(msg);
+            return new ResponseEntity<>(generateError("POSICION_NOT_FOUND", msg), HttpStatus.BAD_REQUEST);
+        }
+
+        String dni = nu_jugador.getDni();
         // check if jugador exists
-        if (daoJug.existsById(nu_jugador.getDni()))
-            return new ResponseEntity<>("Jugador '" + nu_jugador.getDni() + "' already exists", HttpStatus.BAD_REQUEST);
+        if (daoJug.existsById(dni)) {
+            String msg = "Jugador '" + dni + "' already exists";
+
+            System.err.println(msg);
+            return new ResponseEntity<>(generateError("JUGADOR_EXISTS", msg), HttpStatus.BAD_REQUEST);
+        }
+
+        // validate jugador
+        if (!ValidadorDNI.validDNI(dni)) {
+            String msg = "Invalid DNI '" + dni + "'";
+
+            System.err.println(msg);
+            return new ResponseEntity<>(generateError("INVALID_DNI", msg), HttpStatus.BAD_REQUEST);
+        }
 
         // update plantilla
         try {
             addJugadorToPlantilla(nu_jugador);
         }
         catch (IndexOutOfBoundsException e) {
-            return new ResponseEntity<>("Posicion '" + posicion_nombre + "' for equipo '" + equipo_nombre + "' is already full", HttpStatus.BAD_REQUEST);
+            String msg = "Posicion '" + posicion_nombre + "' for equipo '" + equipo_nombre + "' is already full";
+
+            System.err.println(msg);
+            return new ResponseEntity<>(generateError("POSICION_FULL", msg), HttpStatus.BAD_REQUEST);
         }
 
         // save jugador
@@ -160,58 +190,74 @@ public class MainController {
             return new ResponseEntity<>(saved_jugador, HttpStatus.CREATED);
         }
         catch (DataAccessException ex) {
-            return new ResponseEntity<>(ex.getMostSpecificCause().getMessage(), HttpStatus.BAD_REQUEST);
+            System.err.println(ex.getMostSpecificCause().getMessage());
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
 
-    @DeleteMapping("/jugador/{dni}")
+    @DeleteMapping(path = "/jugador/{dni}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> deleteJugador(@PathVariable String dni) {
 
         Optional<Jugador> jugador = daoJug.findById(dni);
-
         if (jugador.isEmpty())
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 
         // delete jugador
-        try {
-            daoJug.deleteById(dni);
-        }
-        catch (DataAccessException ex) {
-            return new ResponseEntity<>(ex.getMostSpecificCause().getMessage(), HttpStatus.BAD_REQUEST);
-        }
+        daoJug.deleteById(dni);
 
         // update plantilla
         try {
             removeJugadorFromPlantilla(jugador.get());
         }
         catch (IllegalStateException e) {
-            return new ResponseEntity<>("Se ha llegado al límite inferior de jugadores", HttpStatus.INTERNAL_SERVER_ERROR);
+            Jugador jug = jugador.get();
+            String msg = "Se ha llegado al límite inferior de '" + jug.getPosicionNombre() + "'' para el equipo '" + jug.getEquipoNombre() + "'";
+
+            System.err.println(msg);
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
         return new ResponseEntity<>(jugador.get(), HttpStatus.OK);
     }
 
 
-    @PutMapping("/jugador")
+    @PutMapping(path = "/jugador", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> updateJugador(@RequestBody Jugador nuJugador) {
 
         // check if jugador exists
 		Optional<Jugador> jugador = daoJug.findById(nuJugador.getDni());
-		if (jugador.isEmpty()) {
+		if (jugador.isEmpty())
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-		}
+
         Jugador oldJugador = jugador.get();
 
         // validate equipo
         String equipo_nombre = nuJugador.getEquipoNombre();
-        if (!daoEq.existsById(equipo_nombre))
-            return new ResponseEntity<>("Equipo '" + equipo_nombre + "' not found", HttpStatus.BAD_REQUEST);
+        if (!daoEq.existsById(equipo_nombre)) {
+            String msg = "Equipo '" + equipo_nombre + "' not found";
+
+            System.err.println(msg);
+            return new ResponseEntity<>(generateError("EQUIPO_NOT_FOUND", msg), HttpStatus.BAD_REQUEST);
+        }
 
         // validate posicion
         String posicion_nombre = nuJugador.getPosicionNombre();
-        if (!daoPos.existsById(posicion_nombre))
-            return new ResponseEntity<>("Posicion '" + posicion_nombre + "' not found", HttpStatus.BAD_REQUEST);
+        if (!daoPos.existsById(posicion_nombre)) {
+            String msg = "Posicion '" + posicion_nombre + "' not found";
+
+            System.err.println(msg);
+            return new ResponseEntity<>(generateError("POSICION_NOT_FOUND", msg), HttpStatus.BAD_REQUEST);
+        }
+
+        // validate jugador
+        String dni = nuJugador.getDni();
+        if (!ValidadorDNI.validDNI(dni)) {
+            String msg = "Invalid DNI '" + dni + "'";
+
+            System.err.println(msg);
+            return new ResponseEntity<>(generateError("INVALID_DNI", msg), HttpStatus.BAD_REQUEST);
+        }
 
         // update posicion, if changed
         if (
@@ -222,14 +268,21 @@ public class MainController {
                 removeJugadorFromPlantilla(oldJugador);
             }
             catch (IllegalStateException e) {
-                return new ResponseEntity<>("Se ha llegado al límite inferior de jugadores", HttpStatus.INTERNAL_SERVER_ERROR);
+                Jugador jug = jugador.get();
+                String msg = "Se ha llegado al límite inferior de '" + jug.getPosicionNombre() + "'' para el equipo '" + jug.getEquipoNombre() + "'";
+
+                System.err.println(msg);
+                return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
             }
 
             try {
                 addJugadorToPlantilla(nuJugador);
             }
             catch (IndexOutOfBoundsException e) {
-                return new ResponseEntity<>("Posicion '" + posicion_nombre + "' for equipo '" + equipo_nombre + "' is already full", HttpStatus.BAD_REQUEST);
+                String msg = "Posicion '" + posicion_nombre + "' for equipo '" + equipo_nombre + "' is already full";
+
+                System.err.println(msg);
+                return new ResponseEntity<>(generateError("POSICION_FULL", msg), HttpStatus.BAD_REQUEST);
             }
         }
 
@@ -238,16 +291,17 @@ public class MainController {
 			Jugador savedJugador = daoJug.save(nuJugador);
 
 			return new ResponseEntity<>(savedJugador, HttpStatus.OK);
-
-		} catch (DataAccessException ex) {
-            return new ResponseEntity<>(ex.getMostSpecificCause().getMessage(), HttpStatus.BAD_REQUEST);
-		}
+        }
+        catch (DataAccessException ex) {
+            System.err.println(ex.getMostSpecificCause().getMessage());
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
 	}
 
 
     /* EQUIPOS */
 
-    @GetMapping("/equipos")
+    @GetMapping(path = "/equipos", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<Equipo>> getAllEquipos() {
         List<Equipo> equipos = daoEq.findAll();
 
@@ -258,16 +312,19 @@ public class MainController {
     }
 
 
-    // TODO: getEquipoImage
+    // TODO: fix images (putImage, getImage)
 
-
-    @PostMapping("/equipo")
+    @PostMapping(path = "/equipo", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> addEquipo(@RequestBody @Validated Equipo nu_equipo) {
 
         // search equipo
         String equipo_nombre = nu_equipo.getNombre();
-        if (daoEq.existsById(equipo_nombre))
-            return new ResponseEntity<>("Equipo '" + equipo_nombre + "' already exists", HttpStatus.BAD_REQUEST);
+        if (daoEq.existsById(equipo_nombre)) {
+            String msg = "Equipo '" + equipo_nombre + "' already exists";
+
+            System.err.println(msg);
+            return new ResponseEntity<>(generateError("EQUIPO_EXISTS", msg), HttpStatus.BAD_REQUEST);
+        }
 
         try {
             // add equipo
@@ -283,16 +340,16 @@ public class MainController {
             return new ResponseEntity<>(saved_equipo, HttpStatus.CREATED);
         }
         catch (DataAccessException ex) {
-            return new ResponseEntity<>(ex.getMostSpecificCause().getMessage(), HttpStatus.BAD_REQUEST);
+            System.err.println(ex.getMostSpecificCause().getMessage());
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
     }
 
 
-
     /* POSICIONES */
 
-    @GetMapping("/posiciones")
+    @GetMapping(path = "/posiciones", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<Posicion>> getAllPosiciones() {
         List<Posicion> posiciones = daoPos.findAll();
 
@@ -308,13 +365,16 @@ public class MainController {
 
     /* PLANTILLAS */
 
-    @GetMapping("/plantilla/{equipo_nombre}")
+    @GetMapping(path = "/plantilla/{equipo_nombre}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> getPlantillaEquipo(@PathVariable String equipo_nombre) {
 
         // search equipo
-        if (!daoEq.existsById(equipo_nombre))
-            return new ResponseEntity<>("Equipo '" + equipo_nombre + "' not found", HttpStatus.BAD_REQUEST);
+        if (!daoEq.existsById(equipo_nombre)) {
+            String msg = "Equipo '" + equipo_nombre + "' not found";
 
+            System.err.println(msg);
+            return new ResponseEntity<>(generateError("EQUIPO_NOT_FOUND", msg), HttpStatus.BAD_REQUEST);
+        }
 
         // get plantilla
         List<Plantilla> plantilla = daoPlan.findByPlantillaIdEquipoNombre(equipo_nombre);

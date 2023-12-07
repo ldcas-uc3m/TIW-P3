@@ -11,7 +11,7 @@ Obtains a list of all _jugadores_.
     - **URL:** `/jugadores`
 - **RESPONSES**
     - `200`: OK. Returns list of _jugadores_:
-        ```json
+        ```
         [
             {
                 "dni": string,
@@ -36,7 +36,7 @@ Obtains a list of all _jugadores_ for an especific _equipo_.
     - **URL:** `/jugadores/<nombre_equipo>`
 - **RESPONSES**
     - `200`: OK. Returns _jugador_ data:
-        ```json
+        ```
         [
             {
                 "dni": string,
@@ -50,7 +50,13 @@ Obtains a list of all _jugadores_ for an especific _equipo_.
             ...
         ]
         ```
-    - `400`: _Equipo_ doesn't exist.
+    - `400`: _Equipo_ doesn't exist:
+        ```
+        {
+            "code": "EQUIPO_NOT_FOUND",
+            "message": string
+        }
+        ```
     - `404`: There are no _jugadores_ for that _equipo_.
 
 
@@ -62,7 +68,7 @@ Obtains an specific _jugador_.
     - **URL:** `/jugador/<dni>`
 - **RESPONSES**
     - `200`: OK. Returns _jugador_ data:
-        ```json
+        ```
         {
             "dni": string,
             "nombre": string,
@@ -82,7 +88,7 @@ Adds a new _jugador_.
 - **REQUEST**
     - **Method:** `POST`
     - **URL:** `/jugador`
-    ```json
+    ```
     {
         "dni": string,
         "nombre": string,
@@ -95,7 +101,7 @@ Adds a new _jugador_.
     ```
 - **RESPONSES**
     - `201`: _Jugador_ created. Returns added _jugador_ data:
-        ```json
+        ```
         {
             "dni": string,
             "nombre": string,
@@ -106,12 +112,42 @@ Adds a new _jugador_.
             "equipoNombre": string
         }
         ```
-    - `400`: Error in request (see error message).
-        -  _Equipo_/_posicion_ doesn't exist.
-        -  _Jugador_ already exists.
-        -  The _equipo_'s _posicion_ is full.
-        -  Other error in request.
-
+    - `400`: Error in request.
+        -  _Equipo_ doesn't exist:
+            ```
+            {
+                "code": "EQUIPO_NOT_FOUND",
+                "message": string
+            }
+            ```
+        -  _Posicion_ doesn't exist:
+            ```
+            {
+                "code": "POSICION_NOT_FOUND",
+                "message": string
+            }
+            ```
+        -  _Jugador_ already exists:
+            ```
+            {
+                "code": "JUGADOR_EXISTS",
+                "message": string
+            }
+            ```
+        - Invalid DNI:
+            ```
+            {
+                "code": "INVALID_DNI",
+                "message": string
+            }
+            ```
+        -  The _equipo_'s _posicion_ is full:
+            ```
+            {
+                "code": "POSICION_FULL",
+                "message": string
+            }
+            ```
 
 
 #### deleteJugador
@@ -122,7 +158,7 @@ Deletes a _jugador_.
     - **URL:** `/jugador/<dni>`
 - **RESPONSES**
     - `200`: _Jugador_ deleted. Returns deleted _jugador_ data:
-        ```json
+        ```
         {
             "dni": string,
             "nombre": string,
@@ -133,9 +169,7 @@ Deletes a _jugador_.
             "equipoNombre": string
         }
         ```
-    - `400`: Error in request (see error message).
     - `404`: _Jugador_ doesn't exist.
-    - `500`: Reached lower limit for _posicion_.
 
 
 #### updateJugador
@@ -144,7 +178,7 @@ Updates a _jugador_'s data. Overwrites everything.
 - **REQUEST**
     - **Method:** `PUT`
     - **URL:** `/jugador`
-    ```json
+    ```
         {
             "dni": string,
             "nombre": string,
@@ -157,7 +191,7 @@ Updates a _jugador_'s data. Overwrites everything.
     ```
 - **RESPONSES**
     - `200`: _Jugador_ deleted. Returns deleted _jugador_ data:
-        ```json
+        ```
         {
             "dni": string,
             "nombre": string,
@@ -168,11 +202,35 @@ Updates a _jugador_'s data. Overwrites everything.
             "equipoNombre": string
         }
         ```
-    - `400`: Error in request (see error message).
-        -  _Equipo_/_posicion_ doesn't exist.
-        -  _Jugador_ already exists.
-        -  The _equipo_'s _posicion_ is full.
-        -  Other error in request.
+    - `400`: Error in request.
+        -  _Equipo_ doesn't exist:
+            ```
+            {
+                "code": "EQUIPO_NOT_FOUND",
+                "message": string
+            }
+            ```
+        -  _Posicion_ doesn't exist:
+            ```
+            {
+                "code": "POSICION_NOT_FOUND",
+                "message": string
+            }
+            ```
+        - Invalid DNI:
+            ```
+            {
+                "code": "INVALID_DNI",
+                "message": string
+            }
+            ```
+        -  The _equipo_'s _posicion_ is full:
+            ```
+            {
+                "code": "POSICION_FULL",
+                "message": string
+            }
+            ```
     - `404`: _Jugador_ doesn't exist.
     - `500`: Reached lower limit for _posicion_.
 
@@ -185,7 +243,7 @@ Obtains all _equipos_.
     - **URL:** `/equipos`
 - **RESPONSES**
     - `200`: OK. Returns list of _equipos_:
-        ```json
+        ```
         [
             {
                 "nombre": string,
@@ -203,23 +261,28 @@ Adds a new _equipo_, updating its _plantillas_.
 - **REQUEST**
     - **Method:** `POST`
     - **URL:** `/equipo`
-    ```json
+    ```
     {
         "nombre": string,
         "escudo": bytes | null
+        <!-- TODO: changeme -->
     }
     ```
 - **RESPONSES**
     - `201`: _Equipo_ created. Returns added _equipo_ data:
-        ```json
+        ```
         {
             "nombre": string,
             "escudo": bytes | null
         }
         ```
-    - `400`: Error in request (see error message).
-        -  _Equipo_ already exists.
-        -  Other error in request.
+    - `400`: _Equipo_ exists:
+        ```
+        {
+            "code": "EQUIPO_EXISTS",
+            "message": string
+        }
+        ```
 
 
 #### getAllPosiciones
@@ -230,7 +293,7 @@ Obtains all _posiciones_.
     - **URL:** `/posiciones`
 - **RESPONSES**
     - `200`: OK. Returns list of _posiciones_:
-        ```json
+        ```
         [
             {
                 "nombre": string,
@@ -250,7 +313,7 @@ Obtains all _plantillas_ for an specific _equipo_.
     - **URL:** `/plantilla/<nombre_equipo>`
 - **RESPONSES**
     - `200`: OK. Returns list of _plantillas_ for the specified _equipo_:
-        ```json
+        ```
         [
             {
                 "nombre": string,
@@ -258,6 +321,13 @@ Obtains all _plantillas_ for an specific _equipo_.
             },
             ...
         ]
+        ```
+    - `400`: _Equipo_ exists:
+        ```
+        {
+            "code": "EQUIPO_EXISTS",
+            "message": string
+        }
         ```
     - `404`: There are no _posiciones_.
 
