@@ -16,19 +16,22 @@
 
     <form action="#" th:action="@{/post-user}" th:object="${usuario}" method="POST">
         <input type="text" th:field="*{nombre}"
-               placeholder="Introduce el nombre" class="form-control mb- col-">
+               placeholder="Introduce el nombre" class="form-control mb-5 col-">
 
         <input type="text" th:field="*{apellido1}"
-               placeholder="Introduce el primer apellido" class="form-control mb- col-">
+               placeholder="Introduce el primer apellido" class="form-control mb-5 col-">
 
         <input type="text" th:field="*{apellido2}"
-               placeholder="Introduce el segundo apellido" class="form-control mb- col-">
+               placeholder="Introduce el segundo apellido" class="form-control mb-5 col-">
+       
+        <input type="password" th:field="*{password}"
+               placeholder="Introduce la contraseña" class="form-control mb-54 col-4">
 
         <input type="email" th:field="*{correo}"
-               placeholder="Introduce el correo electronico" class="form-control mb- col-">
+               placeholder="Introduce el correo electronico" class="form-control mb-5 col-">
 
         <input type="text" th:field="*{equipofav}"
-               placeholder="Introduce tu equipo de la Liga favorito" class="form-control mb- col-">
+               placeholder="Introduce tu equipo de la Liga favorito" class="form-control mb-5 col-">
 
         <button type="submit" class="btn btn-info col- "> Guardar e iniciar sesión</button>
     </form>

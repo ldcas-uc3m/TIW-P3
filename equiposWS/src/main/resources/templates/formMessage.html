@@ -17,11 +17,11 @@
     <form action="#" th:action="@{/post-mensaje}" th:object="${mensaje}" method="POST">
         <label for="id">Introduce el destinatario (nombre del usuario)</label>
         <input type="text" th:field="*{usuario}"
-               id="destinatario" placeholder="Destinatario" class="form-control mb- col-">
+               id="destinatario" placeholder="Destinatario" class="form-control mb-5 col-">
 
         <label for="nombre">Escribe el mensaje</label>
         <input type="text" th:field="*{mensaje}"
-               id="mensaje" placeholder="Introduce el mensaje" class="form-control mb- col-">
+               id="mensaje" placeholder="Introduce el mensaje" class="form-control mb-5 col-">
 
         <button type="submit" class="btn btn-info col-2"> Enviar mensaje </button>
     </form>
