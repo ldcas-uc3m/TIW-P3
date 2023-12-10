@@ -17,26 +17,26 @@
     <form action="#" th:action="@{/post-jugador}" th:object="${jugador}" method="POST">
         <label for="id">Introduce el DNI del jugador</label>
         <input type="text" th:field="*{id_jugador}"
-               id="id" placeholder="Introduce el id del id_jugador" class="form-control mb- col-">
+               id="id" placeholder="Introduce el id del jugador" class="form-control mb-5 col-">
 
         <label for="nombre">Introduce el nombre del jugador</label>
         <input type="text" th:field="*{nombre}"
-               id="nombre" placeholder="Introduce el nombre" class="form-control mb- col-">
+               id="nombre" placeholder="Introduce el nombre" class="form-control mb-5 col-">
 
         <label for="apellidos">Introduce los apellidos del jugador</label>
         <input type="text" th:field="*{apellidos}"
-               id="apellido" placeholder="Introduce la categoria" class="form-control mb- col-">
+               id="apellido" placeholder="Introduce la categoria" class="form-control mb-5 col-">
 
         <label for="alias">Introduce el alias del jugador</label>
         <input type="text" th:field="*{alias}"
-               id="alias" placeholder="Introduce el alias" class="form-control mb- col-">
+               id="alias" placeholder="Introduce el alias" class="form-control mb-5 col-">
 
         <label for="equipo">Introduce el equipo del jugador</label>
         <input type="text" th:field="*{equipo}"
-               id="equipo" placeholder="Introduce el equipo" class="form-control mb- col-">
+               id="equipo" placeholder="Introduce el equipo" class="form-control mb-5 col-">
        
         <label for="posicion">Selecciona la posición del jugador</label>
-        <select th:field="*{posicion}" id="posicion" class="form-control mb- col-">
+        <select th:field="*{posicion}" id="posicion" class="form-control mb-5 col-">
                <option value="portero">Portero</option>
                <option value="defensa">Defensa</option>
                <option value="mediocentro">Mediocentro</option>
@@ -45,7 +45,7 @@
                
         <label for="ima">Introduce la imagen</label>
         <input type="text" th:field="*{imagen}" 
-              id="ima" placeholder="Introduce la imagen" class="form-control mb-4 col-4">
+              id="ima" placeholder="Introduce la imagen" class="form-control mb-54 col-4">
 
 
         <button type="submit" class="btn btn-info col-2"> Guardar </button>
