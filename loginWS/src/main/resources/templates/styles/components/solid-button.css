@@ -1,0 +1,21 @@
+.solid-button-container {
+  display: flex;
+  position: relative;
+}
+.solid-button-button {
+  color: var(--dl-color-gray-white);
+  border: none;
+  transition: 0.3s;
+  padding-top: var(--dl-space-space-halfunit);
+  padding-left: var(--dl-space-space-doubleunit);
+  border-radius: 50px;
+  padding-right: var(--dl-space-space-doubleunit);
+  padding-bottom: var(--dl-space-space-halfunit);
+  background-color: rgba(228, 96, 8, 0.88);
+}
+.solid-button-button:hover {
+  background-color: rgba(228, 96, 8, 1);
+}
+.solid-button-root-class-name {
+  margin-left: var(--dl-space-space-halfunit);
+}

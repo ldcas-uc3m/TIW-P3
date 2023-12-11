@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Bandeja de entrada</title>
+
+    <link rel="stylesheet"
+          href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+          integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+          crossorigin="anonymous">
+
+</head>
+
+<body style="margin-left: 5%; margin-right: 5%; margin-top: 15px">
+<h2>Mensajes recibidos</h2>
+
+<table style="border: 1px" class = "table table-striped table-responsive-md">
+    <thead>
+    <tr>
+        <th>
+            <a>Enviado por: </a>
+        </th>
+        <th>
+            <a>Mensaje: </a>
+        </th>
+    </tr>
+    </thead>
+    <tbody>
+    <!-- CAMBIAR ESTO PARA SACAR LOS MENSAJES  -->
+    <tr th:each="equipos : ${equiposLista}">    
+        <td th:text="${equipos.id}"></td>
+        <td th:text="${equipos.escudo}"></td>
+
+    </tr>
+    </tbody>
+</table>
+<a th:href="@{/}" class="btn btn-primary btn-sm mb-5">Atrás</a>
+
+</body>
+</html>

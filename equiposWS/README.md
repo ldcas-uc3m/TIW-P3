@@ -316,7 +316,10 @@ Obtains all _plantillas_ for an specific _equipo_.
         ```
         [
             {
-                "nombre": string,
+                "id": {
+                    "equipoNombre": string,
+                    "posicion": string
+                },
                 "maxJugadores": int
             },
             ...
