@@ -1,4 +1,4 @@
-package tidw.controller;
+package es.uc3m.tiw.chatWS.controller;
 
 
 import java.util.List;
@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import tidw.domains.Mensaje;
-import tidw.repositories.MensajeRepository;
+import es.uc3m.tiw.chatWS.domains.Mensaje;
+import es.uc3m.tiw.chatWS.repositories.MensajeRepository;
 
 
 @RestController

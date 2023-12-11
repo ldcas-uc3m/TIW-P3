@@ -1,8 +1,8 @@
-package tidw.domains;
+package es.uc3m.tiw.chatWS.domains;
 
 import java.io.Serializable;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.annotation.PersistenceConstructor;
+import java.beans.ConstructorProperties;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
@@ -25,7 +25,7 @@ public class Mensaje implements Serializable{
 
 	}
 
-	@PersistenceConstructor
+	@ConstructorProperties ({"emailori", "emaildest", "mensaje" })
 	public Mensaje(String emailori, String emaildest, String mensaje) {
 		this.emailori = emailori;
 		this.emaildest = emaildest;

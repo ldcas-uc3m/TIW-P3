@@ -1,4 +1,4 @@
-package tidw.repositories;
+package es.uc3m.tiw.chatWS.repositories;
 
 import java.util.List;
 
@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 
-import tidw.domains.Mensaje;
+import es.uc3m.tiw.chatWS.domains.Mensaje;
 
 
 public interface MensajeRepository extends CrudRepository<Mensaje, String>{
