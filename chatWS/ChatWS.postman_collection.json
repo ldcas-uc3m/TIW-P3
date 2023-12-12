@@ -1,0 +1,77 @@
+{
+	"info": {
+		"_postman_id": "35a9282a-e5d2-4648-b4fd-e8bdf50ffdcf",
+		"name": "ChatWS",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "30929119"
+	},
+	"item": [
+		{
+			"name": "GetConversaciones",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/mensajes",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"mensajes"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetMensajesUsuario",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/mensajes/messielmejor@gmail.com",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"mensajes",
+						"messielmejor@gmail.com"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "SentMensaje",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"emailori\": \"cr7elmejor@gmail.com\",\r\n    \"emaildest\": \"messielmejor@gmail.com\",\r\n    \"mensaje\": \"ola k ase el bicho lo mejoh\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/mensaje",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"mensaje"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

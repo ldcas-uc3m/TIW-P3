@@ -1,4 +1,4 @@
-package es.uc3m.tiw.chatWS.controller;
+package es.uc3m.tiw.controller;
 
 
 import java.util.List;
@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import es.uc3m.tiw.chatWS.domains.Mensaje;
-import es.uc3m.tiw.chatWS.repositories.MensajeRepository;
+import es.uc3m.tiw.domains.Mensaje;
+import es.uc3m.tiw.repositories.MensajeRepository;
 
 
 @RestController
@@ -40,12 +40,12 @@ public class ChatController {
 
 	}
 
-	@GetMapping(value = "/mensajes/{emailori}", produces = "application/json")
-	public ResponseEntity<?> getMensajesUsuario(@PathVariable(value = "emailori", required = true) String emailori) {
+	@GetMapping(value = "/mensajes/{emaildest}", produces = "application/json")
+	public ResponseEntity<?> getMensajesUsuario(@PathVariable(value = "emaildest", required = true) String emaildest) {
 
 		try {
 
-			List<Mensaje> entityList = mensajeRepository.findByEmailori(emailori);
+			List<Mensaje> entityList = mensajeRepository.findByEmaildest(emaildest);
 
 			return new ResponseEntity<>(entityList, HttpStatus.OK);
 

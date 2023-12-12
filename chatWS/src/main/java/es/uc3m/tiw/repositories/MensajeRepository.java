@@ -1,4 +1,4 @@
-package es.uc3m.tiw.chatWS.repositories;
+package es.uc3m.tiw.repositories;
 
 import java.util.List;
 
@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 
-import es.uc3m.tiw.chatWS.domains.Mensaje;
+import es.uc3m.tiw.domains.Mensaje;
 
 
 public interface MensajeRepository extends CrudRepository<Mensaje, String>{
@@ -18,7 +18,7 @@ public interface MensajeRepository extends CrudRepository<Mensaje, String>{
 	@Query("SELECT u FROM Mensajes u WHERE u.emailori=:email1 AND emaildest=:email2")
 	List<Mensaje> findByEmailoriAndEmaildest(@Param("email1")String emailori, @Param("email2") String emaildest);
 
-	List<Mensaje> findByEmailori(String emailori);
+	List<Mensaje> findByEmaildest(String emaildest);
 
 	List<Mensaje> findByMensajeLikeOrderByMensajeAsc(String expresion);
 

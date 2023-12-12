@@ -1,4 +1,4 @@
-package es.uc3m.tiw.chatWS.domains;
+package es.uc3m.tiw.domains;
 
 import java.io.Serializable;
 import org.springframework.data.annotation.Id;
@@ -8,7 +8,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 
-@SuppressWarnings("serial")
+// @SuppressWarnings("serial")
 @Document(collection = "mensajes")
 @JsonPropertyOrder({"emailori", "emaildest", "mensaje"})
 public class Mensaje implements Serializable{
