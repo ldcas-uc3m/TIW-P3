@@ -800,7 +800,7 @@
 						}
 					],
 					"cookie": [],
-					"body": "[\n    {\n        \"id\": {\n            \"equipoNombre\": \"Atletico de Madrid\",\n            \"posicion\": \"Defensa\"\n        },\n        \"numJugadores\": 0\n    },\n    {\n        \"id\": {\n            \"equipoNombre\": \"Atletico de Madrid\",\n            \"posicion\": \"Delantero\"\n        },\n        \"numJugadores\": 0\n    },\n    {\n        \"id\": {\n            \"equipoNombre\": \"Atletico de Madrid\",\n            \"posicion\": \"Medio\"\n        },\n        \"numJugadores\": 0\n    },\n    {\n        \"id\": {\n            \"equipoNombre\": \"Atletico de Madrid\",\n            \"posicion\": \"Portero\"\n        },\n        \"numJugadores\": 0\n    }\n]"
+					"body": "[\n    {\n        \"plantillaID\": {\n            \"equipoNombre\": \"Atletico de Madrid\",\n            \"posicion\": \"Defensa\"\n        },\n        \"numJugadores\": 0\n    },\n    {\n        \"plantillaID\": {\n            \"equipoNombre\": \"Atletico de Madrid\",\n            \"posicion\": \"Delantero\"\n        },\n        \"numJugadores\": 0\n    },\n    {\n        \"id\": {\n            \"equipoNombre\": \"Atletico de Madrid\",\n            \"posicion\": \"Medio\"\n        },\n        \"numJugadores\": 0\n    },\n    {\n        \"id\": {\n            \"equipoNombre\": \"Atletico de Madrid\",\n            \"posicion\": \"Portero\"\n        },\n        \"numJugadores\": 0\n    }\n]"
 				}
 			]
 		}

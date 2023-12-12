@@ -316,7 +316,7 @@ Obtains all _plantillas_ for an specific _equipo_.
         ```
         [
             {
-                "id": {
+                "plantillaID": {
                     "equipoNombre": string,
                     "posicion": string
                 },
