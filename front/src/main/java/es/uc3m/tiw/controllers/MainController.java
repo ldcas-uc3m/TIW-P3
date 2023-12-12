@@ -74,7 +74,7 @@ public class MainController {
 	}
 
 
-	/* LLAMADAS AL CONTROLADOR */
+	/* LLAMADAS AL CONTROLADOR - USUARIOS */
 	@GetMapping ("pagina-usuario/{name}")
 	public String returnUsuarios(Model model, @PathVariable String name) {
 
@@ -119,6 +119,103 @@ public class MainController {
 	@PostMapping ("pagina-update-usuario")
 	public String deleteUser(Model model, @ModelAttribute Usuario us){
 		restTemplate.put("http://localhost:8082/users", us, Usuario.class);
+		return "index";
+	}
+
+
+	/* LLAMADAS AL CONTROLADOR - EQUIPOS */
+	@GetMapping ("pagina-equipo/{name}")
+	public String returnEquipos(Model model, @PathVariable String name) {
+
+		Equipo eq = restTemplate.getForObject("http://localhost:8082/equipo/{name}", Equipo.class, name);
+		model.addAttribute("equipo", eq);
+		return "viewEquipos";
+
+	}
+
+	@GetMapping ("pagina-todos-equipos")
+	public String returnTodosEquipos(Model model) {
+		Equipo[] listaEq = restTemplate.getForObject("http://localhost:8082/equipos", Equipo[].class);
+		model.addAttribute("equipoList", listaEq);
+		return "viewTodosEquipos";
+	}
+
+	@PostMapping ("pagina-post-equipo")
+	public String saveEquipo(Model model, @ModelAttribute Equipo eq) {
+		Equipo newEquipo = restTemplate.postForObject("http://localhost:8082/equipos", eq, Equipo.class);
+		model.addAttribute("equipo", newEquipo);
+		return "viewEquipos";
+	}
+
+	@PostMapping ("pagina-delete-equipo")
+	public String deleteEquipo(Model model, @RequestParam String equipoName) {
+		Equipo delEquipo = restTemplate.getForObject("http://localhost:8082/equipos/{name}", Equipo.class, equipoName);
+		if (delEquipo != null) {
+			restTemplate.delete("http://localhost:8082/equipos/{id}", delEquipo.getNombre());
+		}
+		return "index";
+	}
+
+	@PostMapping ("pagina-search-equipo")
+	public String searchEquipos(Model model, @RequestParam String name) {
+		Equipo eq = restTemplate.getForObject("http://localhost:8082/equipos/{name}", Equipo.class, name);
+		model.addAttribute("equipo", eq);
+		return "viewUpdateEquipo";
+
+	}
+
+	@PostMapping ("pagina-update-equipo")
+	public String deleteEquipo(Model model, @ModelAttribute Equipo eq){
+		restTemplate.put("http://localhost:8082/equipos", eq, Equipo.class);
+		return "index";
+	}
+
+
+	/* LLAMADAS AL CONTROLADOR - JUGADORES */
+	@GetMapping ("pagina-jugador/{dni}")
+	public String returnJugadores(Model model, @PathVariable String dni) {
+
+		Jugador ju = restTemplate.getForObject("http://localhost:8082/jugador/{dni}", Jugador.class, dni);
+		model.addAttribute("jugador", ju);
+		return "viewJugadores";
+
+	}
+
+	@GetMapping ("pagina-todos-jugadores")
+	public String returnTodosJugadores(Model model) {
+		Jugador[] listaJu = restTemplate.getForObject("http://localhost:8082/jugadores", Jugador[].class);
+		model.addAttribute("jugadorList", listaJu);
+		return "viewTodosJugadores";
+	}
+
+
+	@PostMapping ("pagina-post-jugador")
+	public String saveJugador(Model model, @ModelAttribute Jugador ju) {
+		Jugador newJugador = restTemplate.postForObject("http://localhost:8082/jugadores", ju, Jugador.class);
+		model.addAttribute("jugador", newJugador);
+		return "viewJugadores";
+	}
+
+	@PostMapping ("pagina-delete-jugador")
+	public String deleteJugador(Model model, @RequestParam String jugadorDNI) {
+		Jugador delJugador = restTemplate.getForObject("http://localhost:8082/jugador/{dni}", Jugador.class, jugadorDNI);
+		if (delJugador != null) {
+			restTemplate.delete("http://localhost:8082/jugadores/{dni}", delJugador.getDni());
+		}
+		return "index";
+	}
+
+	@PostMapping ("pagina-search-jugador")
+	public String searchJugadores(Model model, @RequestParam String dni) {
+		Jugador ju = restTemplate.getForObject("http://localhost:8082/jugador/{dni}", Jugador.class, dni);
+		model.addAttribute("jugador", ju);
+		return "viewUpdateJugador";
+
+	}
+
+	@PostMapping ("pagina-update-jugador")
+	public String deleteJugador(Model model, @ModelAttribute Jugador ju){
+		restTemplate.put("http://localhost:8082/users", ju, Jugador.class);
 		return "index";
 	}
 
