@@ -15,7 +15,10 @@
 <body style="margin-left: 5%; margin-right: 5%; margin-top: 15px">
 <h2>Tabla con los equipos</h2>
 
-<table style="border: 1px" class = "table table-striped table-responsive-md">
+<p th:if="${error}" th:text="${error}"></p>
+
+
+<table th:unless="${error}" style="border: 1px" class = "table table-striped table-responsive-md">
     <thead>
     <tr>
         <th>

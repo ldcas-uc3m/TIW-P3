@@ -26,7 +26,11 @@ public class MainController {
 	@Autowired
 	RestTemplate restTemplate;
 
-    /* REDIRECCIONES */
+	/* NAVEGACION Y REDIRECCIONES */
+	@GetMapping("/")
+    public String index(){
+        return "index";
+    }
 
     @GetMapping("/formNewJugador")
     public String formNewJugador(Model modelo) {
@@ -46,7 +50,19 @@ public class MainController {
     }
 
     @GetMapping("/formUpdateJugador")
-    public String formUpdateJugador() {
+    public String formUpdateJugador(Model modelo) {
+
+		// get posiciones
+		Posicion[] posiciones = restTemplate.getForObject("http://localhost:8022/posiciones", Posicion[].class);
+		modelo.addAttribute("posiciones", posiciones);
+
+		// get equipos
+		Equipo[] equipos = restTemplate.getForObject("http://localhost:8022/equipos", Equipo[].class);
+		modelo.addAttribute("equipos", equipos);
+
+		// create bean for jugador no se si está bien crearlo de 0 aqui
+		modelo.addAttribute("jugador", new Jugador());
+
         return "formUpdateJugador";
     }
 
@@ -67,13 +83,6 @@ public class MainController {
     }
 
 
-	/* NAVEGACION */
-	@GetMapping("/")
-    public String index(){
-        return "index";
-    }
-
-
 	/* CRUD CONTROLADOR - USUARIOS */
 	@GetMapping ("pagina-usuario/{nombre}")
 	public String returnUsuarios(Model model, @PathVariable String nombre) {
@@ -86,8 +95,20 @@ public class MainController {
 
 	@GetMapping ("pagina-todos-usuarios")
 	public String returnTodosUsuarios(Model model) {
+		try {
 		Usuario[] listaUs = restTemplate.getForObject("http://localhost:8021/users", Usuario[].class);
 		model.addAttribute("userList", listaUs);
+
+		}
+		catch(HttpClientErrorException ex) {  // different from 200
+
+			if (ex.getStatusCode() == HttpStatus.NOT_FOUND) {
+				String msg = "No usuarios found";
+				System.out.println(msg);
+				model.addAttribute("error", msg);
+			}
+		}
+
 		return "viewTodosJugadoresUs";
 	}
  
@@ -135,8 +156,20 @@ public class MainController {
 
 	@GetMapping ("pagina-todos-equipos")
 	public String returnTodosEquipos(Model model) {
+		try {
 		Equipo[] listaEq = restTemplate.getForObject("http://localhost:8022/equipos", Equipo[].class);
 		model.addAttribute("equipoList", listaEq);
+
+		}
+		catch(HttpClientErrorException ex) {  // different from 200
+
+			if (ex.getStatusCode() == HttpStatus.NOT_FOUND) {
+				String msg = "No equipos found";
+				System.out.println(msg);
+				model.addAttribute("error", msg);
+			}
+		}
+
 		return "viewTodosEquipos";
 	}
 
@@ -237,15 +270,26 @@ public class MainController {
 
 		Administrador ad = restTemplate.getForObject("http://localhost:8021/admin/{nombre}", Administrador.class, nombre);
 		model.addAttribute("administrador", ad);
-		return "viewAdministrador";
+		return "loginAdmin";
 
 	}
 
 	@GetMapping ("pagina-todos-administradores")
 	public String returnTodosAdministradores(Model model) {
+		try {
 		Administrador[] listaAd = restTemplate.getForObject("http://localhost:8021/administradores", Administrador[].class);
 		model.addAttribute("adminList", listaAd);
-		return "viewTodosAdministradores";
+
+		}
+		catch(HttpClientErrorException ex) {  // different from 200
+
+			if (ex.getStatusCode() == HttpStatus.NOT_FOUND) {
+				String msg = "No administradores found";
+				System.out.println(msg);
+				model.addAttribute("error", msg);
+			}
+		}
+		return "loginAdmin";
 	}
 
 
@@ -253,7 +297,7 @@ public class MainController {
 	public String saveAdmin(Model model, @ModelAttribute Administrador ad) {
 		Administrador newAdministrador = restTemplate.postForObject("http://localhost:8021/administradores", ad, Administrador.class);
 		model.addAttribute("administrador", newAdministrador);
-		return "viewAdministrador";
+		return "index";
 	}
 
 	@PostMapping ("pagina-delete-administrador")
@@ -269,7 +313,7 @@ public class MainController {
 	public String searchAdmin(Model model, @RequestParam String nombre) {
 		Administrador ad = restTemplate.getForObject("http://localhost:8021/admin/{nombre}", Administrador.class, nombre);
 		model.addAttribute("administrador", ad);
-		return "viewUpdateAdministrador";
+		return "index";
 
 	}
 

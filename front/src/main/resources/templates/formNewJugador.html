@@ -14,7 +14,10 @@
     <h1>Añade un nuevo jugador</h1>
     <hr>
 
-    <form action="#" th:action="@{/post-jugador}" th:object="${jugador}" method="POST">
+    <p th:if="${error}" th:text="${error}"></p>
+
+
+    <form action="#" th:unless="${error}" th:action="@{/post-jugador}" th:object="${jugador}" method="POST">
         <!-- <label for="id">Introduce el DNI del jugador</label> -->
         <p>DNI: <input type="text" th:field="*{dni}" class="form-control mb-5 col-"/></p>
         <p>Nombre: <input type="text" th:field="*{nombre}" class="form-control mb-5 col-"/></p>

@@ -14,7 +14,11 @@
     <h1>Añade tus credenciales de administrador</h1>
     <hr>
 
-    <form action="#" th:action="@{/post-administrador}" th:object="${administrador}" method="POST">
+    <p th:if="${error}" th:text="${error}"></p>
+
+
+    <form action="#" th:unless="${error}" th:action="@{/post-administrador}" th:object="${administrador}" method="POST">
+       
        <p>Correo: <input type="email" th:field="*{correo}" class="form-control mb-5 col-"/></p>
        <p>Nombre: <input type="text" th:field="*{nombre}" class="form-control mb-5 col-"/></p>
        <p>Apellidos: <input type="text" th:field="*{apellidos}" class="form-control mb-5 col-"/></p>

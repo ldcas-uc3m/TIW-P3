@@ -14,8 +14,10 @@
     <h1>Añade tus credenciales como usuario (solo visualización)</h1>
     <hr>
     
+    <p th:if="${error}" th:text="${error}"></p>
 
-    <form action="#" th:action="@{/post-usuario}" th:object="${usuario}" method="POST">
+
+    <form action="#" th:unless="${error}" th:action="@{/post-usuario}" th:object="${usuario}" method="POST">
 
        <p>Correo: <input type="email" th:field="*{correo}" class="form-control mb-5 col-"/></p>
        <p>Nombre: <input type="text" th:field="*{nombre}" class="form-control mb-5 col-"/></p>
