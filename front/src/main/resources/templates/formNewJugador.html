@@ -15,37 +15,42 @@
     <hr>
 
     <form action="#" th:action="@{/post-jugador}" th:object="${jugador}" method="POST">
-        <label for="id">Introduce el DNI del jugador</label>
-        <input type="text" th:field="*{id_jugador}"
-               id="id" placeholder="Introduce el id del jugador" class="form-control mb-5 col-">
-
-        <label for="nombre">Introduce el nombre del jugador</label>
+        <!-- <label for="id">Introduce el DNI del jugador</label> -->
+        <p>DNI: <input type="text" th:field="*{dni}" class="form-control mb-5 col-"/></p>
+        <p>Nombre: <input type="text" th:field="*{nombre}" class="form-control mb-5 col-"/></p>
+        <p>Apellidos: <input type="text" th:field="*{apellidos}" class="form-control mb-5 col-"/></p>
+        <p>Alias: <input type="text" th:field="*{alias}" class="form-control mb-5 col-"/></p>
+        <!-- <label for="nombre">Introduce el nombre del jugador</label>
         <input type="text" th:field="*{nombre}"
                id="nombre" placeholder="Introduce el nombre" class="form-control mb-5 col-">
 
         <label for="apellidos">Introduce los apellidos del jugador</label>
         <input type="text" th:field="*{apellidos}"
-               id="apellido" placeholder="Introduce la categoria" class="form-control mb-5 col-">
+               id="apellidos" placeholder="Introduce la categoria" class="form-control mb-5 col-">
 
         <label for="alias">Introduce el alias del jugador</label>
         <input type="text" th:field="*{alias}"
                id="alias" placeholder="Introduce el alias" class="form-control mb-5 col-">
 
-        <label for="equipo">Introduce el equipo del jugador</label>
-        <input type="text" th:field="*{equipo}"
-               id="equipo" placeholder="Introduce el equipo" class="form-control mb-5 col-">
-       
-        <label for="posicion">Selecciona la posición del jugador</label>
-        <select th:field="*{posicion}" id="posicion" class="form-control mb-5 col-">
-               <option value="portero">Portero</option>
-               <option value="defensa">Defensa</option>
-               <option value="mediocentro">Mediocentro</option>
-               <option value="delantero">Delantero</option>
-        </select>
+        <label for="equipoNombre">Introduce el equipo del jugador</label>
+        <input type="text" th:field="*{equipoNombre}"
+               id="equipoNombre" placeholder="Introduce el equipo" class="form-control mb-5 col-"> -->
+       <p>
+              Selecciona el equipo
+              <select th:field="*{equipoNombre}" class="form-control mb-5 col-">
+                     <option th:each="equipo : ${equipos}" th:value="${equipo.nombre}" th:text="${equipo.nombre}"></option>
+              </select>
+       </p>
+       <p>
+              Selecciona la posición del jugador
+              <select th:field="*{posicionNombre}" class="form-control mb-5 col-">
+                     <option th:each="posicion : ${posiciones}" th:value="${posicion.nombre}" th:text="${posicion.nombre}"></option>
+              </select>
+       </p>
                
-        <label for="ima">Introduce la imagen</label>
+        <!-- <label for="ima">Introduce la imagen</label>
         <input type="text" th:field="*{imagen}" 
-              id="ima" placeholder="Introduce la imagen" class="form-control mb-54 col-4">
+              id="ima" placeholder="Introduce la imagen" class="form-control mb-54 col-4"> -->
 
 
         <button type="submit" class="btn btn-info col-2"> Guardar </button>

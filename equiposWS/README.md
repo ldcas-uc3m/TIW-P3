@@ -320,7 +320,7 @@ Obtains all _plantillas_ for an specific _equipo_.
                     "equipoNombre": string,
                     "posicion": string
                 },
-                "maxJugadores": int
+                "numJugadores": int
             },
             ...
         ]

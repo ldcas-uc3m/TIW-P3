@@ -13,25 +13,37 @@
 <div class="container">
     <h1>Añade tus credenciales como usuario (solo visualización)</h1>
     <hr>
+    
 
-    <form action="#" th:action="@{/post-user}" th:object="${usuario}" method="POST">
+    <form action="#" th:action="@{/post-usuario}" th:object="${usuario}" method="POST">
+
+       <p>Correo: <input type="email" th:field="*{correo}" class="form-control mb-5 col-"/></p>
+       <p>Nombre: <input type="text" th:field="*{nombre}" class="form-control mb-5 col-"/></p>
+       <p>Apellidos: <input type="text" th:field="*{apellidos}" class="form-control mb-5 col-"/></p>
+       <p>
+              Selecciona el equipo
+              <select th:field="*{equipoNombre}" class="form-control mb-5 col-">
+                     <option th:each="equipo : ${equipos}" th:value="${equipo.nombre}" th:text="${equipo.nombre}"></option>
+              </select>
+       </p>
+
+       <p>contraseña: <input type="password" th:field="*{password}" class="form-control mb-5 col-"/></p>
+
+
+       <!-- <input type="email" th:field="*{correo}"
+              placeholder="Introduce el correo electronico" class="form-control mb-5 col-">
+
         <input type="text" th:field="*{nombre}"
                placeholder="Introduce el nombre" class="form-control mb-5 col-">
 
-        <input type="text" th:field="*{apellido1}"
-               placeholder="Introduce el primer apellido" class="form-control mb-5 col-">
+        <input type="text" th:field="*{apellidos}"
+               placeholder="Introduce tus apellidos" class="form-control mb-5 col-">
 
-        <input type="text" th:field="*{apellido2}"
-               placeholder="Introduce el segundo apellido" class="form-control mb-5 col-">
+        <input type="text" th:field="*{equipo}"
+               placeholder="Introduce tu equipo de la Liga favorito" class="form-control mb-5 col-">        
        
         <input type="password" th:field="*{password}"
-               placeholder="Introduce la contraseña" class="form-control mb-54 col-4">
-
-        <input type="email" th:field="*{correo}"
-               placeholder="Introduce el correo electronico" class="form-control mb-5 col-">
-
-        <input type="text" th:field="*{equipofav}"
-               placeholder="Introduce tu equipo de la Liga favorito" class="form-control mb-5 col-">
+               placeholder="Introduce la contraseña" class="form-control mb-54 col-4"> -->
 
         <button type="submit" class="btn btn-info col- "> Guardar e iniciar sesión</button>
     </form>

@@ -2,8 +2,12 @@ package es.uc3m.tiw.controllers;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 import es.uc3m.tiw.entities.Equipo;
@@ -16,7 +20,7 @@ import es.uc3m.tiw.entities.Administrador;
 
 
 
-@RestController
+@Controller  // can't be RestController
 public class MainController {
 
 	@Autowired
@@ -25,22 +29,36 @@ public class MainController {
     /* REDIRECCIONES */
 
     @GetMapping("/formNewJugador")
-    public String formNewJugador() {
+    public String formNewJugador(Model modelo) {
+
+		// get posiciones
+		Posicion[] posiciones = restTemplate.getForObject("http://localhost:8022/posiciones", Posicion[].class);
+		modelo.addAttribute("posiciones", posiciones);
+
+		// get equipos
+		Equipo[] equipos = restTemplate.getForObject("http://localhost:8022/equipos", Equipo[].class);
+		modelo.addAttribute("equipos", equipos);
+
+		// create bean for jugador
+		modelo.addAttribute("jugador", new Jugador());
+
         return "formNewJugador";  // Devuelve el nombre de la plantilla Thymeleaf (sin extensión .html)
     }
 
-    @GetMapping("/formUpgradeJugador")
-    public String formUpgadeJugador() {
-        return "formUpgradeJugador";
+    @GetMapping("/formUpdateJugador")
+    public String formUpdateJugador() {
+        return "formUpdateJugador";
     }
 
     @GetMapping("/loginAdmin")
-    public String loginAdmin() {
+    public String loginAdmin(Model modelo) {
         return "loginAdmin";
     }
 
     @GetMapping("/loginUsuario")
-    public String loginUsuario() {
+    public String loginUsuario(Model modelo) {
+        // create model attribute to bind form data
+		modelo.addAttribute("usuario", new Usuario());
         return "loginUsuario";
     }
 
@@ -53,26 +71,9 @@ public class MainController {
 
 	/* NAVEGACION */
 	@GetMapping("/")
-	public String index() {
-		return "index";
-	}
-
-	@GetMapping ("pagina-crear-usuario")
-	public String mostrarElFormularioDelUsuario(Model modelo){
-		modelo.addAttribute("usuario", new Usuario());
-		return "ViewCrearUsuario.html";
-	}
-
-	@GetMapping ("pagina-borrar-usuario")
-	public String mostrarElFormularioBorrarUsuario() {
-		return "ViewDeleteUsuario.html";
-	}
-
-	@GetMapping ("pagina-update-usuario")
-	public String mostrarElFormularioUpdateUsuario(Model modelo) {
-		modelo.addAttribute("usuario", new Usuario());
-		return "ViewUpdateUsuario.html";
-	}
+    public String index(){
+        return "index";
+    }
 
 
 	/* CRUD CONTROLADOR - USUARIOS */
@@ -81,7 +82,7 @@ public class MainController {
 
 		Usuario us = restTemplate.getForObject("http://localhost:8021/user/{nombre}", Usuario.class, nombre);
 		model.addAttribute("usuario", us);
-		return "viewUsuarios";
+		return "viewTodosJugadoresUs";
 
 	}
 
@@ -89,15 +90,15 @@ public class MainController {
 	public String returnTodosUsuarios(Model model) {
 		Usuario[] listaUs = restTemplate.getForObject("http://localhost:8021/users", Usuario[].class);
 		model.addAttribute("userList", listaUs);
-		return "viewTodosUsuarios";
+		return "viewTodosJugadoresUs";
 	}
-
+ 
 
 	@PostMapping ("pagina-post-usuario")
 	public String saveUser(Model model, @ModelAttribute Usuario us) {
 		Usuario newUser = restTemplate.postForObject("http://localhost:8021/users", us, Usuario.class);
 		model.addAttribute("usuario", newUser);
-		return "viewUsuarios";
+		return "viewTodosJugadoresUs";
 	}
 
 	@PostMapping ("pagina-delete-usuario")
@@ -178,30 +179,42 @@ public class MainController {
 
 		Jugador ju = restTemplate.getForObject("http://localhost:8022/jugador/{dni}", Jugador.class, dni);
 		model.addAttribute("jugador", ju);
-		return "viewJugadores";
+		return "viewTodosJugadoresUs";
 
 	}
 
 	@GetMapping ("pagina-todos-jugadores")
 	public String returnTodosJugadores(Model model) {
-		Jugador[] listaJu = restTemplate.getForObject("http://localhost:8022/jugadores", Jugador[].class);
-		model.addAttribute("jugadorList", listaJu);
-		return "viewTodosJugadores";
+		try {
+			Jugador[] listaJu = restTemplate.getForObject("http://localhost:8022/jugadores", Jugador[].class);
+			model.addAttribute("jugadorList", listaJu);
+		}
+		catch(HttpClientErrorException ex) {  // different from 200
+
+			if (ex.getStatusCode() == HttpStatus.NOT_FOUND) {
+				String msg = "No jugadores found";
+				System.out.println(msg);
+				model.addAttribute("error", msg);
+			}
+		}
+		
+		return "viewTodosJugadoresUs";
 	}
 
 
-	@PostMapping ("pagina-post-jugador")
+	@PostMapping ("post-jugador")
 	public String saveJugador(Model model, @ModelAttribute Jugador ju) {
-		Jugador newJugador = restTemplate.postForObject("http://localhost:8022/jugadores", ju, Jugador.class);
+		Jugador newJugador = restTemplate.postForObject("http://localhost:8022/jugador", ju, Jugador.class);
 		model.addAttribute("jugador", newJugador);
-		return "viewJugadores";
+
+		return returnTodosJugadores(model);
 	}
 
 	@PostMapping ("pagina-delete-jugador")
 	public String deleteJugador(Model model, @RequestParam String jugadorDNI) {
 		Jugador delJugador = restTemplate.getForObject("http://localhost:8022/jugador/{dni}", Jugador.class, jugadorDNI);
 		if (delJugador != null) {
-			restTemplate.delete("http://localhost:8082/jugadores/{dni}", delJugador.getDni());
+			restTemplate.delete("http://localhost:8082/jugador/{dni}", delJugador.getDni());
 		}
 		return "index";
 	}
@@ -267,6 +280,8 @@ public class MainController {
 		restTemplate.put("http://localhost:8021/administradores", ad, Administrador.class);
 		return "index";
 	}
+
+
 
 
 }
