@@ -14,8 +14,12 @@
     <h1>Añade tus credenciales de administrador</h1>
     <hr>
 
-    <form action="#" th:action="@{/post-admin}" th:object="${admin}" method="POST">
-        <input type="text" th:field="*{nombre}"
+    <form action="#" th:action="@{/post-administrador}" th:object="${administrador}" method="POST">
+       <p>Correo: <input type="email" th:field="*{correo}" class="form-control mb-5 col-"/></p>
+       <p>Nombre: <input type="text" th:field="*{nombre}" class="form-control mb-5 col-"/></p>
+       <p>Apellidos: <input type="text" th:field="*{apellidos}" class="form-control mb-5 col-"/></p>
+       <p>contraseña: <input type="password" th:field="*{password}" class="form-control mb-5 col-"/></p>
+        <!-- <input type="text" th:field="*{nombre}"
                placeholder="Introduce el nombre" class="form-control mb-5 col-">
 
         <input type="text" th:field="*{apellido1}"
@@ -28,7 +32,7 @@
                placeholder="Introduce la contraseña" class="form-control mb-54 col-4">
 
         <input type="email" th:field="*{correo}"
-               placeholder="Introduce el correo electronico" class="form-control mb-5 col-">
+               placeholder="Introduce el correo electronico" class="form-control mb-5 col-"> -->
 
        
        <h2>Iniciando sesión de esta manera le permitirá agregar, actualizar y eliminar la información de la base de datos</h2>

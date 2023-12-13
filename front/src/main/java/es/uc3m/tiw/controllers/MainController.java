@@ -52,21 +52,19 @@ public class MainController {
 
     @GetMapping("/loginAdmin")
     public String loginAdmin(Model modelo) {
+
+		// create bean for jugador
+		modelo.addAttribute("administrador", new Administrador());
         return "loginAdmin";
     }
 
     @GetMapping("/loginUsuario")
     public String loginUsuario(Model modelo) {
-        // create model attribute to bind form data
+
+		// create bean for jugador
 		modelo.addAttribute("usuario", new Usuario());
         return "loginUsuario";
     }
-
-    @GetMapping("/viewTodosJugadoresAd")
-    public String viewTodosJugadoresAd() {
-        return "viewTodosJugadoresAd";
-    }
-
 
 
 	/* NAVEGACION */
@@ -227,7 +225,7 @@ public class MainController {
 
 	}
 
-	@PostMapping ("pagina-update-jugador")
+	@PostMapping ("update-jugador")
 	public String deleteJugador(Model model, @ModelAttribute Jugador ju){
 		restTemplate.put("http://localhost:8022/jugadores", ju, Jugador.class);
 		return "index";
@@ -251,7 +249,7 @@ public class MainController {
 	}
 
 
-	@PostMapping ("pagina-post-administrador")
+	@PostMapping ("post-administrador")
 	public String saveAdmin(Model model, @ModelAttribute Administrador ad) {
 		Administrador newAdministrador = restTemplate.postForObject("http://localhost:8021/administradores", ad, Administrador.class);
 		model.addAttribute("administrador", newAdministrador);
