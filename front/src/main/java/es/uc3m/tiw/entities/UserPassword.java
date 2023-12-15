@@ -7,23 +7,23 @@ import java.io.Serializable;
 public class UserPassword implements Serializable{
     private static final long serialVersionUID = 1L;
 
-    String correo;
-    private String password;
+    String userCorreo;
+    private String userPassword;
 
 
     public UserPassword() {}
 
     public String getUserCorreo() {
-        return this.correo;
+        return this.userCorreo;
     }
     public void setUserCorreo(String correo) {
-        this.correo = correo;
+        this.userCorreo = correo;
     }
 
     public String getUserPassword() {
-        return this.password;
+        return this.userPassword;
     }
     public void setUserPassword(String password) {
-        this.password = password;
+        this.userPassword = password;
     }
 }

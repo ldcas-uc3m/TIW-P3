@@ -17,13 +17,14 @@
     <p th:if="${error}" th:text="${error}"></p>
 
 
-    <form action="#" th:unless="${error}" th:action="@{/post-administrador}" th:object="${administrador}" method="POST">
+    <form action="#" th:unless="${error}" th:action="@{/loginAdmin}" th:object="${administrador}" method="POST">
        
-       <p>Correo: <input type="email" th:field="*{correo}" class="form-control mb-5 col-"/></p>
-       <p>Nombre: <input type="text" th:field="*{nombre}" class="form-control mb-5 col-"/></p>
-       <p>Apellidos: <input type="text" th:field="*{apellidos}" class="form-control mb-5 col-"/></p>
-       <p>contraseña: <input type="password" th:field="*{password}" class="form-control mb-5 col-"/></p>
-        <!-- <input type="text" th:field="*{nombre}"
+       <p>Correo: <input type="email" th:field="*{adminCorreo}" class="form-control mb-5 col-"/></p>
+       <p>Contraseña: <input type="password" th:field="*{adminPassword}" class="form-control mb-5 col-"/></p>
+       <!-- <p>Nombre: <input type="text" th:field="*{nombre}" class="form-control mb-5 col-"/></p>
+       <p>Apellidos: <input type="text" th:field="*{apellidos}" class="form-control mb-5 col-"/></p> -->
+
+       <!-- <input type="text" th:field="*{nombre}"
                placeholder="Introduce el nombre" class="form-control mb-5 col-">
 
         <input type="text" th:field="*{apellido1}"

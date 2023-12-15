@@ -17,19 +17,13 @@
     <p th:if="${error}" th:text="${error}"></p>
 
 
-    <form action="#" th:unless="${error}" th:action="@{/post-usuario}" th:object="${usuario}" method="POST">
+    <form action="#" th:unless="${error}" th:action="@{/loginUsuario}" th:object="${usuario}" method="POST">
 
-       <p>Correo: <input type="email" th:field="*{correo}" class="form-control mb-5 col-"/></p>
-       <p>Nombre: <input type="text" th:field="*{nombre}" class="form-control mb-5 col-"/></p>
-       <p>Apellidos: <input type="text" th:field="*{apellidos}" class="form-control mb-5 col-"/></p>
-       <p>
-              Selecciona el equipo
-              <select th:field="*{equipoNombre}" class="form-control mb-5 col-">
-                     <option th:each="equipo : ${equipos}" th:value="${equipo.nombre}" th:text="${equipo.nombre}"></option>
-              </select>
-       </p>
+       <p>Correo: <input type="email" th:field="*{userCorreo}" class="form-control mb-5 col-"/></p>
+       <p>Contraseña: <input type="password" th:field="*{userPassword}" class="form-control mb-5 col-"/></p>
+       <!-- <p>Nombre: <input type="text" th:field="*{nombre}" class="form-control mb-5 col-"/></p>
+       <p>Apellidos: <input type="text" th:field="*{userApellidos}" class="form-control mb-5 col-"/></p> -->
 
-       <p>contraseña: <input type="password" th:field="*{password}" class="form-control mb-5 col-"/></p>
 
 
        <!-- <input type="email" th:field="*{correo}"
@@ -47,7 +41,7 @@
         <input type="password" th:field="*{password}"
                placeholder="Introduce la contraseña" class="form-control mb-54 col-4"> -->
 
-        <button type="submit" class="btn btn-info col- "> Guardar e iniciar sesión</button>
+        <button type="submit" class="btn btn-info col- "> Iniciar sesión</button>
     </form>
 
     <hr>

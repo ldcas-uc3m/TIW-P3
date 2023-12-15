@@ -7,24 +7,24 @@ import java.io.Serializable;
 public class AdminPassword implements Serializable{
     private static final long serialVersionUID = 1L;
 
-    String correo;
-    private String password;
+    String adminCorreo;
+    private String AdminPassword;
 
 
     public AdminPassword() {}
 
 
     public String getAdminCorreo() {
-        return this.correo;
+        return this.adminCorreo;
     }
     public void setAdminCorreo(String correo) {
-        this.correo = correo;
+        this.adminCorreo = correo;
     }
 
     public String getAdminPassword() {
-        return this.password;
+        return this.AdminPassword;
     }
     public void setAdminPassword(String password) {
-        this.password = password;
+        this.AdminPassword = password;
     }
 }

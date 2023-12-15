@@ -15,12 +15,9 @@
 <body style="margin-left: 5%; margin-right: 5%; margin-top: 15px">
 <h2>Tabla con los jugadores</h2>
 
-<a th:href="@{/showFormJugador}" class="btn btn-primary btn-sm mb-5"> Añadir jugadores </a>
+<a th:href="@{/formNewJugador}" class="btn btn-primary btn-sm mb-5"> Añadir jugadores </a>
 
 <p th:if="${error}" th:text="${error}"></p>
-
-    Error
-</p>
 
 <table th:unless="${error}" style="border: 1px" class = "table table-striped table-responsive-md">
     <thead>
@@ -49,17 +46,16 @@
     </tr>
     </thead>
     <tbody>
-    <tr th:each="jugadores : ${equiposLista}">
-        <td th:text="${jugadores.id}"></td>
-        <td th:text="${jugadores.nombre}"></td>
-        <td th:text="${jugadores.apellidos}"></td>
-        <td th:text="${jugadores.alias}"></td>
-        <td th:text="${jugadores.imagen}"></td>
-        <td th:text="${jugadores.posicion_nombre}"></td>
-        <td th:text="${jugadores.equipo_nombre}"></td>
-        <td> <a th:href="@{/showFormForUpdateJugador/{id}(id=${jugadores.id})}" class="btn btn-primary">Update</a>
-            <form th:action="@{/delete-jugador/{id}(id=${jugadores.id})}" method="post"><button type="submit" class="btn btn-danger">Delete</button>
-            </form>
+    <tr th:each="jugador : ${jugadorList}">
+        <td th:text="${jugador.dni}"></td>
+        <td th:text="${jugador.nombre}"></td>
+        <td th:text="${jugador.apellidos}"></td>
+        <td th:text="${jugador.alias}"></td>
+        <td th:text="${jugador.posicionNombre}"></td>
+        <td th:text="${jugador.equipoNombre}"></td>
+        <td> <a th:href="@{/formUpdateJugador}" class="btn btn-primary">Update</a>
+                <form th:action="@{/delete-jugador/{dni}(dni=${jugador.dni})}" method="post"><button type="submit" class="btn btn-danger">Delete</button>
+                </form>
         </td>
     </tr>
     </tbody>

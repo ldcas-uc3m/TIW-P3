@@ -7,7 +7,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.HttpClientErrorException;
-import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 import es.uc3m.tiw.entities.Equipo;
@@ -26,11 +25,13 @@ public class MainController {
 	@Autowired
 	RestTemplate restTemplate;
 
-	/* NAVEGACION Y REDIRECCIONES */
 	@GetMapping("/")
     public String index(){
         return "index";
     }
+
+
+	/* JUGADORES */
 
     @GetMapping("/formNewJugador")
     public String formNewJugador(Model modelo) {
@@ -49,173 +50,145 @@ public class MainController {
         return "formNewJugador";  // Devuelve el nombre de la plantilla Thymeleaf (sin extensión .html)
     }
 
-    @GetMapping("/formUpdateJugador")
-    public String formUpdateJugador(Model modelo) {
+    @GetMapping("/formUpdateJugador/{dni}")
+    public String formUpdateJugador(Model modelo, @PathVariable String dni) {
+		// get jugador
+		Jugador jugador = restTemplate.getForObject("http://localhost:8022/jugador/{dni}", Jugador.class, dni);
+		modelo.addAttribute("jugador", jugador);
 
 		// get posiciones
-		Posicion[] posiciones = restTemplate.getForObject("http://localhost:8022/posiciones", Posicion[].class);
+		Posicion[] posiciones = restTemplate.getForObject("http://localhost:8022/posiciones/", Posicion[].class);
 		modelo.addAttribute("posiciones", posiciones);
 
 		// get equipos
 		Equipo[] equipos = restTemplate.getForObject("http://localhost:8022/equipos", Equipo[].class);
 		modelo.addAttribute("equipos", equipos);
 
-		// create bean for jugador no se si está bien crearlo de 0 aqui
-		modelo.addAttribute("jugador", new Jugador());
+		// modelo.addAttribute("jugador", new Jugador());
 
         return "formUpdateJugador";
     }
 
-    @GetMapping("/loginAdmin")
-    public String loginAdmin(Model modelo) {
 
-		// create bean for jugador
+	@PostMapping ("post-jugador")
+	public String saveJugador(Model model, @ModelAttribute Jugador ju) {
+		Jugador newJugador = restTemplate.postForObject("http://localhost:8022/jugador", ju, Jugador.class);
+		model.addAttribute("jugador", newJugador);
+
+		return returnTodosJugadoresUs(model);
+	}
+
+	@PostMapping ("delete-jugador/{dni}")
+	public String deleteJugador(Model model, @PathVariable String dni) {
+
+		try {
+			restTemplate.delete("http://localhost:8022/jugador/{dni}", dni);
+		}
+		catch(HttpClientErrorException ex) {  // different from 200
+
+			if (ex.getStatusCode() == HttpStatus.NOT_FOUND) {
+				String msg = "Jugador doesn't exist";
+				System.out.println(msg);
+				model.addAttribute("error", msg);
+			}
+		}
+
+		return returnTodosJugadoresAd(model);
+	}
+	
+	@PostMapping ("update-jugador/{dni}")
+	public String updateJugador(Model model, @ModelAttribute Jugador ju, @PathVariable dni) {
+
+		try {
+			restTemplate.put("http://localhost:8022/jugador/{dni}", ju, dni);
+		}
+		catch(HttpClientErrorException ex) {  // different from 200
+
+			if (ex.getStatusCode() == HttpStatus.NOT_FOUND) {
+				String msg = "Jugador doesn't exist";
+				System.out.println(msg);
+				model.addAttribute("error", msg);
+			}
+		}
+
+		return returnTodosJugadoresAd(model);
+	}
+
+
+	/* LOGIN */
+
+	@GetMapping("/pagina-login-administrador")
+    public String gotLoginAdministrador(Model modelo) {
+
+		// create bean for usuario
 		modelo.addAttribute("administrador", new Administrador());
+
         return "loginAdmin";
     }
 
-    @GetMapping("/loginUsuario")
-    public String loginUsuario(Model modelo) {
+    @PostMapping("/loginAdmin")
+    public String loginAdmin(Model modelo, @ModelAttribute Administrador ad) {
 
-		// create bean for jugador
+		try {
+			restTemplate.postForObject("http://localhost:8021/Adminlogin", ad, String.class);
+		}
+		catch(HttpClientErrorException ex) {  // different from 200
+
+			if (ex.getStatusCode() == HttpStatus.BAD_REQUEST) {
+				String msg = "Invalid credentials";
+				System.out.println(msg);
+				modelo.addAttribute("error", msg);
+			}
+		}
+
+        return returnTodosJugadoresAd(modelo);
+    }
+
+
+	@GetMapping("/pagina-login-usuario")
+    public String gotLoginUsuario(Model modelo) {
+		// get equipos
+		Equipo[] equipos = restTemplate.getForObject("http://localhost:8022/equipos", Equipo[].class);
+		modelo.addAttribute("equipos", equipos);
+
+		// create bean for usuario
 		modelo.addAttribute("usuario", new Usuario());
         return "loginUsuario";
     }
 
+    @PostMapping ("/loginUsuario")
+	public String loginUsuario(Model model, @ModelAttribute Usuario us) {
+		Usuario newUser = restTemplate.postForObject("http://localhost:8021/Userlogin", us, Usuario.class);
 
-	/* CRUD CONTROLADOR - USUARIOS */
-	@GetMapping ("pagina-usuario/{nombre}")
-	public String returnUsuarios(Model model, @PathVariable String nombre) {
-
-		Usuario us = restTemplate.getForObject("http://localhost:8021/user/{nombre}", Usuario.class, nombre);
-		model.addAttribute("usuario", us);
-		return "viewTodosJugadoresUs";
-
-	}
-
-	@GetMapping ("pagina-todos-usuarios")
-	public String returnTodosUsuarios(Model model) {
-		try {
-		Usuario[] listaUs = restTemplate.getForObject("http://localhost:8021/users", Usuario[].class);
-		model.addAttribute("userList", listaUs);
-
-		}
-		catch(HttpClientErrorException ex) {  // different from 200
-
-			if (ex.getStatusCode() == HttpStatus.NOT_FOUND) {
-				String msg = "No usuarios found";
-				System.out.println(msg);
-				model.addAttribute("error", msg);
-			}
-		}
-
-		return "viewTodosJugadoresUs";
-	}
- 
-
-	@PostMapping ("pagina-post-usuario")
-	public String saveUser(Model model, @ModelAttribute Usuario us) {
-		Usuario newUser = restTemplate.postForObject("http://localhost:8021/users", us, Usuario.class);
 		model.addAttribute("usuario", newUser);
-		return "viewTodosJugadoresUs";
+
+		return returnTodosJugadoresUs(model);
 	}
 
-	@PostMapping ("pagina-delete-usuario")
-	public String deleteUser(Model model, @RequestParam String userName) {
-		Usuario delUser = restTemplate.getForObject("http://localhost:8021/user/{nombre}", Usuario.class, userName);
-		if (delUser != null) {
-			restTemplate.delete("http://localhost:8082/users/{nombre}", delUser.getUserCorreo());
-		}
-		return "index";
-	}
-
-	@PostMapping ("pagina-search-usuario")
-	public String searchUsuarios(Model model, @RequestParam String nombre) {
-		Usuario us = restTemplate.getForObject("http://localhost:8021/user/{nombre}", Usuario.class, nombre);
-		model.addAttribute("usuario", us);
-		return "viewUpdateUsuario";
-
-	}
-
-	@PostMapping ("pagina-update-usuario")
-	public String deleteUser(Model model, @ModelAttribute Usuario us){
-		restTemplate.put("http://localhost:8082/users", us, Usuario.class);
-		return "index";
-	}
-
-
-	/* CRUD CONTROLADOR - EQUIPOS */
-	@GetMapping ("pagina-equipo/{nombre}")
-	public String returnEquipos(Model model, @PathVariable String nombre) {
-
-		Equipo eq = restTemplate.getForObject("http://localhost:8022/equipo/{nombre}", Equipo.class, nombre);
-		model.addAttribute("equipo", eq);
-		return "viewEquipos";
-
-	}
-
-	@GetMapping ("pagina-todos-equipos")
-	public String returnTodosEquipos(Model model) {
-		try {
-		Equipo[] listaEq = restTemplate.getForObject("http://localhost:8022/equipos", Equipo[].class);
-		model.addAttribute("equipoList", listaEq);
-
-		}
-		catch(HttpClientErrorException ex) {  // different from 200
-
-			if (ex.getStatusCode() == HttpStatus.NOT_FOUND) {
-				String msg = "No equipos found";
-				System.out.println(msg);
-				model.addAttribute("error", msg);
-			}
-		}
-
-		return "viewTodosEquipos";
-	}
-
-	@PostMapping ("pagina-post-equipo")
-	public String saveEquipo(Model model, @ModelAttribute Equipo eq) {
-		Equipo newEquipo = restTemplate.postForObject("http://localhost:8022/equipos", eq, Equipo.class);
-		model.addAttribute("equipo", newEquipo);
-		return "viewEquipos";
-	}
-
-	@PostMapping ("pagina-delete-equipo")
-	public String deleteEquipo(Model model, @RequestParam String equipoName) {
-		Equipo delEquipo = restTemplate.getForObject("http://localhost:8022/equipos/{nombre}", Equipo.class, equipoName);
-		if (delEquipo != null) {
-			restTemplate.delete("http://localhost:8082/equipos/{nombre}", delEquipo.getNombre());
-		}
-		return "index";
-	}
-
-	@PostMapping ("pagina-search-equipo")
-	public String searchEquipos(Model model, @RequestParam String nombre) {
-		Equipo eq = restTemplate.getForObject("http://localhost:8022/equipos/{nombre}", Equipo.class, nombre);
-		model.addAttribute("equipo", eq);
-		return "viewUpdateEquipo";
-
-	}
-
-	@PostMapping ("pagina-update-equipo")
-	public String deleteEquipo(Model model, @ModelAttribute Equipo eq){
-		restTemplate.put("http://localhost:8022/equipos", eq, Equipo.class);
-		return "index";
-	}
 
 
 	/* CRUD CONTROLADOR - JUGADORES */
-	@GetMapping ("pagina-jugador/{dni}")
-	public String returnJugadores(Model model, @PathVariable String dni) {
 
-		Jugador ju = restTemplate.getForObject("http://localhost:8022/jugador/{dni}", Jugador.class, dni);
-		model.addAttribute("jugador", ju);
+	@GetMapping ("pagina-todos-jugadores-user")
+	public String returnTodosJugadoresUs(Model model) {
+		try {
+			Jugador[] listaJu = restTemplate.getForObject("http://localhost:8022/jugadores", Jugador[].class);
+			model.addAttribute("jugadorList", listaJu);
+		}
+		catch(HttpClientErrorException ex) {  // different from 200
+
+			if (ex.getStatusCode() == HttpStatus.NOT_FOUND) {
+				String msg = "No jugadores found";
+				System.out.println(msg);
+				model.addAttribute("error", msg);
+			}
+		}
+
 		return "viewTodosJugadoresUs";
-
 	}
-
-	@GetMapping ("pagina-todos-jugadores")
-	public String returnTodosJugadores(Model model) {
+	
+	@GetMapping ("pagina-todos-jugadores-admin")
+	public String returnTodosJugadoresAd(Model model) {
 		try {
 			Jugador[] listaJu = restTemplate.getForObject("http://localhost:8022/jugadores", Jugador[].class);
 			model.addAttribute("jugadorList", listaJu);
@@ -229,100 +202,8 @@ public class MainController {
 			}
 		}
 		
-		return "viewTodosJugadoresUs";
+		return "viewTodosJugadoresAd";
 	}
-
-
-	@PostMapping ("post-jugador")
-	public String saveJugador(Model model, @ModelAttribute Jugador ju) {
-		Jugador newJugador = restTemplate.postForObject("http://localhost:8022/jugador", ju, Jugador.class);
-		model.addAttribute("jugador", newJugador);
-
-		return returnTodosJugadores(model);
-	}
-
-	@PostMapping ("pagina-delete-jugador")
-	public String deleteJugador(Model model, @RequestParam String jugadorDNI) {
-		Jugador delJugador = restTemplate.getForObject("http://localhost:8022/jugador/{dni}", Jugador.class, jugadorDNI);
-		if (delJugador != null) {
-			restTemplate.delete("http://localhost:8082/jugador/{dni}", delJugador.getDni());
-		}
-		return "index";
-	}
-
-	@PostMapping ("pagina-search-jugador")
-	public String searchJugadores(Model model, @RequestParam String dni) {
-		Jugador ju = restTemplate.getForObject("http://localhost:8022/jugador/{dni}", Jugador.class, dni);
-		model.addAttribute("jugador", ju);
-		return "viewUpdateJugador";
-
-	}
-
-	@PostMapping ("update-jugador")
-	public String deleteJugador(Model model, @ModelAttribute Jugador ju){
-		restTemplate.put("http://localhost:8022/jugadores", ju, Jugador.class);
-		return "index";
-	}
-
-	/* CRUD CONTROLADOR - ADMINISTRADOR */
-	@GetMapping ("pagina-administrador/{nombre}")
-	public String returnAdministrador(Model model, @PathVariable String nombre) {
-
-		Administrador ad = restTemplate.getForObject("http://localhost:8021/admin/{nombre}", Administrador.class, nombre);
-		model.addAttribute("administrador", ad);
-		return "loginAdmin";
-
-	}
-
-	@GetMapping ("pagina-todos-administradores")
-	public String returnTodosAdministradores(Model model) {
-		try {
-		Administrador[] listaAd = restTemplate.getForObject("http://localhost:8021/administradores", Administrador[].class);
-		model.addAttribute("adminList", listaAd);
-
-		}
-		catch(HttpClientErrorException ex) {  // different from 200
-
-			if (ex.getStatusCode() == HttpStatus.NOT_FOUND) {
-				String msg = "No administradores found";
-				System.out.println(msg);
-				model.addAttribute("error", msg);
-			}
-		}
-		return "loginAdmin";
-	}
-
-
-	@PostMapping ("post-administrador")
-	public String saveAdmin(Model model, @ModelAttribute Administrador ad) {
-		Administrador newAdministrador = restTemplate.postForObject("http://localhost:8021/administradores", ad, Administrador.class);
-		model.addAttribute("administrador", newAdministrador);
-		return "index";
-	}
-
-	@PostMapping ("pagina-delete-administrador")
-	public String deleteAdmin(Model model, @RequestParam String adminName) {
-		Administrador delAdmin = restTemplate.getForObject("http://localhost:8021/admin/{nombre}", Administrador.class, adminName);
-		if (delAdmin != null) {
-			restTemplate.delete("http://localhost:8082/admin/{nombre}", delAdmin.getAdminCorreo());
-		}
-		return "index";
-	}
-
-	@PostMapping ("pagina-search-administrador")
-	public String searchAdmin(Model model, @RequestParam String nombre) {
-		Administrador ad = restTemplate.getForObject("http://localhost:8021/admin/{nombre}", Administrador.class, nombre);
-		model.addAttribute("administrador", ad);
-		return "index";
-
-	}
-
-	@PostMapping ("pagina-update-administrador")
-	public String deleteAdmin(Model model, @ModelAttribute Administrador ad){
-		restTemplate.put("http://localhost:8021/administradores", ad, Administrador.class);
-		return "index";
-	}
-
 
 
 

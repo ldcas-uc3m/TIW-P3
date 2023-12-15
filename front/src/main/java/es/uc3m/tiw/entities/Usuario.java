@@ -7,49 +7,49 @@ import java.io.Serializable;
 public class Usuario implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    private String correo;
-    private String nombre;
-    private String apellidos;
-    private String equipo;
-    private String password;
+    private String userCorreo;
+    private String userNombre;
+    private String userApellidos;
+    private String userEquipo;
+    private String userPassword;
 
 
     public Usuario() {}
 
 
     public String getUserCorreo() {
-        return this.correo;
+        return this.userCorreo;
     }
     public void setUserCorreo(String correo) {
-        this.correo = correo;
+        this.userCorreo = correo;
     }
 
     public String getUserNombre() {
-        return this.nombre;
+        return this.userNombre;
     }
     public void setUserNombre(String nombre) {
-        this.nombre = nombre;
+        this.userNombre = nombre;
     }
 
     public String getUserApellido() {
-        return this.apellidos;
+        return this.userApellidos;
     }
     public void setUserApellido(String apellidos) {
-        this.apellidos = apellidos;
+        this.userApellidos = apellidos;
     }
 
     public String getUserEquipo() {
-        return this.equipo;
+        return this.userEquipo;
     }
     public void setUserEquipo(String equipo) {
-        this.equipo = equipo;
+        this.userEquipo = equipo;
     }
 
     public String getUserPassword() {
-        return this.password;
+        return this.userPassword;
     }
     public void setUserPassword(String password) {
-        this.password = password;
+        this.userPassword = password;
     }
 
 }

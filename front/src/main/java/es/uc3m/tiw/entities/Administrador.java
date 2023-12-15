@@ -8,39 +8,39 @@ import java.io.Serializable;
 public class Administrador implements Serializable{
     private static final long serialVersionUID = 1L;
 
-    String correo;
-    private String nombre;
-    private String apellidos;
-    private String password;
+    String adminCorreo;
+    private String adminNombre;
+    private String adminApellidos;
+    private String adminPassword;
 
 
     public Administrador() {}
 
     public String getAdminCorreo() {
-        return this.correo;
+        return this.adminCorreo;
     }
     public void setAdminCorreo(String correo) {
-        this.correo = correo;
+        this.adminCorreo = correo;
     }
 
     public String getAdminNombre() {
-        return this.nombre;
+        return this.adminNombre;
     }
     public void setAdminNombre(String nombre) {
-        this.nombre = nombre;
+        this.adminNombre = nombre;
     }
 
     public String getAdminApellido() {
-        return this.apellidos;
+        return this.adminApellidos;
     }
     public void setAdminApellido(String apellidos) {
-        this.apellidos = apellidos;
+        this.adminApellidos = apellidos;
     }
 
     public String getAdminPassword() {
-        return this.password;
+        return this.adminPassword;
     }
     public void setAdminPassword(String password) {
-        this.password = password;
+        this.adminPassword = password;
     }
 }
