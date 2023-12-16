@@ -1,6 +1,7 @@
 package es.uc3m.tiw.controllers;
 
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -359,8 +360,33 @@ public class MainController {
         return new ResponseEntity<>(posiciones, HttpStatus.OK);
     }
 
+    @GetMapping(path = "/posiciones/{equipo_nombre}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<Posicion>> getPosicionesEquipo(@PathVariable String equipo_nombre) {
 
-    // TODO: getEquipoPosiciones
+        // obtain posiciones
+        List<Posicion> posiciones = daoPos.findAll();
+        if (posiciones.isEmpty())
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+
+        // obtain plantilla
+        List<Plantilla> plantillas = daoPlan.findByPlantillaIdEquipoNombre(equipo_nombre);
+
+        if (plantillas.isEmpty())
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+
+        // remove full posiciones
+        List<Posicion> pos_to_remove = new ArrayList<Posicion>();
+
+        for (Plantilla plan : plantillas) {
+            for (Posicion pos : posiciones) {
+                if (plan.getNumJugadores() >= pos.getMaxJugadores())
+                    pos_to_remove.add(pos);
+            }
+        }
+        posiciones.removeAll(pos_to_remove);
+
+        return new ResponseEntity<>(posiciones, HttpStatus.OK);
+    }
 
 
     /* PLANTILLAS */

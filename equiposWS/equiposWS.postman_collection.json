@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "4e3f74a3-3ca9-470a-ae4d-fb86d68d2960",
+		"_postman_id": "6ad0efdd-c0d6-4c94-80a6-6c48fe67bbc1",
 		"name": "equiposWS",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "30905051"
@@ -15,7 +15,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8022/jugador/1234",
+							"raw": "http://localhost:8022/jugador/55537692Y",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -23,25 +23,26 @@
 							"port": "8022",
 							"path": [
 								"jugador",
-								"1234"
+								"55537692Y"
 							]
 						}
 					},
 					"response": [
 						{
-							"name": "getAllJugadores",
+							"name": "getJugador",
 							"originalRequest": {
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:8022/jugadores",
+									"raw": "http://localhost:8022/jugador/55537692Y",
 									"protocol": "http",
 									"host": [
 										"localhost"
 									],
 									"port": "8022",
 									"path": [
-										"jugadores"
+										"jugador",
+										"55537692Y"
 									]
 								}
 							},
@@ -71,7 +72,7 @@
 								},
 								{
 									"key": "Date",
-									"value": "Mon, 27 Nov 2023 15:43:22 GMT"
+									"value": "Sat, 16 Dec 2023 15:32:59 GMT"
 								},
 								{
 									"key": "Keep-Alive",
@@ -83,7 +84,7 @@
 								}
 							],
 							"cookie": [],
-							"body": "[\n    {\n        \"dni\": \"1234\",\n        \"nombre\": \"Pepe\",\n        \"apellidos\": \"Pérez\",\n        \"alias\": null,\n        \"imagen\": null,\n        \"posicionNombre\": \"Defensa\",\n        \"equipoNombre\": \"Atletico de Madrid\"\n    },\n    {\n        \"dni\": \"123444576\",\n        \"nombre\": \"Pepe\",\n        \"apellidos\": \"Pérez\",\n        \"alias\": null,\n        \"imagen\": null,\n        \"posicionNombre\": \"Defensa\",\n        \"equipoNombre\": \"Atletico de Madrid\"\n    },\n    {\n        \"dni\": \"12344576\",\n        \"nombre\": \"Pepe\",\n        \"apellidos\": \"Pérez\",\n        \"alias\": null,\n        \"imagen\": null,\n        \"posicionNombre\": \"Defensa\",\n        \"equipoNombre\": \"Atletico de Madrid\"\n    },\n    {\n        \"dni\": \"12345\",\n        \"nombre\": \"Pepe\",\n        \"apellidos\": \"Pérez\",\n        \"alias\": null,\n        \"imagen\": null,\n        \"posicionNombre\": \"Defensa\",\n        \"equipoNombre\": \"Atletico de Madrid\"\n    },\n    {\n        \"dni\": \"123456\",\n        \"nombre\": \"Pepe\",\n        \"apellidos\": \"Pérez\",\n        \"alias\": null,\n        \"imagen\": null,\n        \"posicionNombre\": \"Defensa\",\n        \"equipoNombre\": \"Atletico de Madrid\"\n    },\n    {\n        \"dni\": \"1234576\",\n        \"nombre\": \"Pepe\",\n        \"apellidos\": \"Pérez\",\n        \"alias\": null,\n        \"imagen\": null,\n        \"posicionNombre\": \"Defensa\",\n        \"equipoNombre\": \"Atletico de Madrid\"\n    },\n    {\n        \"dni\": \"142444576\",\n        \"nombre\": \"Pepe\",\n        \"apellidos\": \"Pérez\",\n        \"alias\": null,\n        \"imagen\": null,\n        \"posicionNombre\": \"Defensa\",\n        \"equipoNombre\": \"Atletico de Madrid\"\n    },\n    {\n        \"dni\": \"142445576\",\n        \"nombre\": \"Pepe\",\n        \"apellidos\": \"Pérez\",\n        \"alias\": null,\n        \"imagen\": null,\n        \"posicionNombre\": \"Defensa\",\n        \"equipoNombre\": \"Atletico de Madrid\"\n    },\n    {\n        \"dni\": \"142445676\",\n        \"nombre\": \"Pepe\",\n        \"apellidos\": \"Pérez\",\n        \"alias\": null,\n        \"imagen\": null,\n        \"posicionNombre\": \"Defensa\",\n        \"equipoNombre\": \"Atletico de Madrid\"\n    }\n]"
+							"body": "{\n    \"dni\": \"55537692Y\",\n    \"nombre\": \"Pepe\",\n    \"apellidos\": \"Pérez\",\n    \"alias\": null,\n    \"imagen\": null,\n    \"posicionNombre\": \"Defensa\",\n    \"equipoNombre\": \"Atletico de Madrid\"\n}"
 						}
 					]
 				},
@@ -93,7 +94,7 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8022/jugador/1234",
+							"raw": "http://localhost:8022/jugador/81828250T",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -101,25 +102,26 @@
 							"port": "8022",
 							"path": [
 								"jugador",
-								"1234"
+								"81828250T"
 							]
 						}
 					},
 					"response": [
 						{
-							"name": "getAllJugadores",
+							"name": "deleteJugador",
 							"originalRequest": {
-								"method": "GET",
+								"method": "DELETE",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:8022/jugadores",
+									"raw": "http://localhost:8022/jugador/81828250T",
 									"protocol": "http",
 									"host": [
 										"localhost"
 									],
 									"port": "8022",
 									"path": [
-										"jugadores"
+										"jugador",
+										"81828250T"
 									]
 								}
 							},
@@ -149,7 +151,7 @@
 								},
 								{
 									"key": "Date",
-									"value": "Mon, 27 Nov 2023 15:43:22 GMT"
+									"value": "Sat, 16 Dec 2023 15:34:04 GMT"
 								},
 								{
 									"key": "Keep-Alive",
@@ -161,7 +163,7 @@
 								}
 							],
 							"cookie": [],
-							"body": "[\n    {\n        \"dni\": \"1234\",\n        \"nombre\": \"Pepe\",\n        \"apellidos\": \"Pérez\",\n        \"alias\": null,\n        \"imagen\": null,\n        \"posicionNombre\": \"Defensa\",\n        \"equipoNombre\": \"Atletico de Madrid\"\n    },\n    {\n        \"dni\": \"123444576\",\n        \"nombre\": \"Pepe\",\n        \"apellidos\": \"Pérez\",\n        \"alias\": null,\n        \"imagen\": null,\n        \"posicionNombre\": \"Defensa\",\n        \"equipoNombre\": \"Atletico de Madrid\"\n    },\n    {\n        \"dni\": \"12344576\",\n        \"nombre\": \"Pepe\",\n        \"apellidos\": \"Pérez\",\n        \"alias\": null,\n        \"imagen\": null,\n        \"posicionNombre\": \"Defensa\",\n        \"equipoNombre\": \"Atletico de Madrid\"\n    },\n    {\n        \"dni\": \"12345\",\n        \"nombre\": \"Pepe\",\n        \"apellidos\": \"Pérez\",\n        \"alias\": null,\n        \"imagen\": null,\n        \"posicionNombre\": \"Defensa\",\n        \"equipoNombre\": \"Atletico de Madrid\"\n    },\n    {\n        \"dni\": \"123456\",\n        \"nombre\": \"Pepe\",\n        \"apellidos\": \"Pérez\",\n        \"alias\": null,\n        \"imagen\": null,\n        \"posicionNombre\": \"Defensa\",\n        \"equipoNombre\": \"Atletico de Madrid\"\n    },\n    {\n        \"dni\": \"1234576\",\n        \"nombre\": \"Pepe\",\n        \"apellidos\": \"Pérez\",\n        \"alias\": null,\n        \"imagen\": null,\n        \"posicionNombre\": \"Defensa\",\n        \"equipoNombre\": \"Atletico de Madrid\"\n    },\n    {\n        \"dni\": \"142444576\",\n        \"nombre\": \"Pepe\",\n        \"apellidos\": \"Pérez\",\n        \"alias\": null,\n        \"imagen\": null,\n        \"posicionNombre\": \"Defensa\",\n        \"equipoNombre\": \"Atletico de Madrid\"\n    },\n    {\n        \"dni\": \"142445576\",\n        \"nombre\": \"Pepe\",\n        \"apellidos\": \"Pérez\",\n        \"alias\": null,\n        \"imagen\": null,\n        \"posicionNombre\": \"Defensa\",\n        \"equipoNombre\": \"Atletico de Madrid\"\n    },\n    {\n        \"dni\": \"142445676\",\n        \"nombre\": \"Pepe\",\n        \"apellidos\": \"Pérez\",\n        \"alias\": null,\n        \"imagen\": null,\n        \"posicionNombre\": \"Defensa\",\n        \"equipoNombre\": \"Atletico de Madrid\"\n    }\n]"
+							"body": "{\n    \"dni\": \"81828250T\",\n    \"nombre\": \"Pepe\",\n    \"apellidos\": \"Pérez\",\n    \"alias\": null,\n    \"imagen\": null,\n    \"posicionNombre\": \"Portero\",\n    \"equipoNombre\": \"Atletico de Madrid\"\n}"
 						}
 					]
 				},
@@ -228,7 +230,7 @@
 								},
 								{
 									"key": "Date",
-									"value": "Mon, 27 Nov 2023 15:43:05 GMT"
+									"value": "Sat, 16 Dec 2023 15:31:38 GMT"
 								},
 								{
 									"key": "Keep-Alive",
@@ -240,7 +242,7 @@
 								}
 							],
 							"cookie": [],
-							"body": "[\n    {\n        \"dni\": \"1234\",\n        \"nombre\": \"Pepe\",\n        \"apellidos\": \"Pérez\",\n        \"alias\": null,\n        \"imagen\": null,\n        \"posicionNombre\": \"Defensa\",\n        \"equipoNombre\": \"Atletico de Madrid\"\n    },\n    {\n        \"dni\": \"123444576\",\n        \"nombre\": \"Pepe\",\n        \"apellidos\": \"Pérez\",\n        \"alias\": null,\n        \"imagen\": null,\n        \"posicionNombre\": \"Defensa\",\n        \"equipoNombre\": \"Atletico de Madrid\"\n    },\n    {\n        \"dni\": \"12344576\",\n        \"nombre\": \"Pepe\",\n        \"apellidos\": \"Pérez\",\n        \"alias\": null,\n        \"imagen\": null,\n        \"posicionNombre\": \"Defensa\",\n        \"equipoNombre\": \"Atletico de Madrid\"\n    },\n    {\n        \"dni\": \"12345\",\n        \"nombre\": \"Pepe\",\n        \"apellidos\": \"Pérez\",\n        \"alias\": null,\n        \"imagen\": null,\n        \"posicionNombre\": \"Defensa\",\n        \"equipoNombre\": \"Atletico de Madrid\"\n    },\n    {\n        \"dni\": \"123456\",\n        \"nombre\": \"Pepe\",\n        \"apellidos\": \"Pérez\",\n        \"alias\": null,\n        \"imagen\": null,\n        \"posicionNombre\": \"Defensa\",\n        \"equipoNombre\": \"Atletico de Madrid\"\n    },\n    {\n        \"dni\": \"1234576\",\n        \"nombre\": \"Pepe\",\n        \"apellidos\": \"Pérez\",\n        \"alias\": null,\n        \"imagen\": null,\n        \"posicionNombre\": \"Defensa\",\n        \"equipoNombre\": \"Atletico de Madrid\"\n    },\n    {\n        \"dni\": \"142444576\",\n        \"nombre\": \"Pepe\",\n        \"apellidos\": \"Pérez\",\n        \"alias\": null,\n        \"imagen\": null,\n        \"posicionNombre\": \"Defensa\",\n        \"equipoNombre\": \"Atletico de Madrid\"\n    },\n    {\n        \"dni\": \"142445576\",\n        \"nombre\": \"Pepe\",\n        \"apellidos\": \"Pérez\",\n        \"alias\": null,\n        \"imagen\": null,\n        \"posicionNombre\": \"Defensa\",\n        \"equipoNombre\": \"Atletico de Madrid\"\n    },\n    {\n        \"dni\": \"142445676\",\n        \"nombre\": \"Pepe\",\n        \"apellidos\": \"Pérez\",\n        \"alias\": null,\n        \"imagen\": null,\n        \"posicionNombre\": \"Defensa\",\n        \"equipoNombre\": \"Atletico de Madrid\"\n    }\n]"
+							"body": "[\n    {\n        \"dni\": \"03826385J\",\n        \"nombre\": \"Pepe\",\n        \"apellidos\": \"Pérez\",\n        \"alias\": null,\n        \"imagen\": null,\n        \"posicionNombre\": \"Portero\",\n        \"equipoNombre\": \"Atletico de Madrid\"\n    },\n    {\n        \"dni\": \"42068554J\",\n        \"nombre\": \"Pepe\",\n        \"apellidos\": \"Pérez\",\n        \"alias\": null,\n        \"imagen\": null,\n        \"posicionNombre\": \"Defensa\",\n        \"equipoNombre\": \"Atletico de Madrid\"\n    },\n    {\n        \"dni\": \"55537692Y\",\n        \"nombre\": \"Pepe\",\n        \"apellidos\": \"Pérez\",\n        \"alias\": null,\n        \"imagen\": null,\n        \"posicionNombre\": \"Defensa\",\n        \"equipoNombre\": \"Atletico de Madrid\"\n    },\n    {\n        \"dni\": \"80642821Z\",\n        \"nombre\": \"Pepe\",\n        \"apellidos\": \"Pérez\",\n        \"alias\": null,\n        \"imagen\": null,\n        \"posicionNombre\": \"Portero\",\n        \"equipoNombre\": \"Atletico de Madrid\"\n    },\n    {\n        \"dni\": \"81828250T\",\n        \"nombre\": \"Pepe\",\n        \"apellidos\": \"Pérez\",\n        \"alias\": null,\n        \"imagen\": null,\n        \"posicionNombre\": \"Portero\",\n        \"equipoNombre\": \"Atletico de Madrid\"\n    }\n]"
 						}
 					]
 				},
@@ -251,7 +253,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"dni\": \"1234\",\n    \"nombre\": \"Pepe\",\n    \"apellidos\": \"Pérez\",\n    \"posicionNombre\": \"Defensa\",\n    \"equipoNombre\": \"Atletico de Madrid\"\n}",
+							"raw": "{\n    \"dni\": \"55537692Y\",\n    \"nombre\": \"Pepe\",\n    \"apellidos\": \"Pérez\",\n    \"posicionNombre\": \"Defensa\",\n    \"equipoNombre\": \"Atletico de Madrid\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -278,7 +280,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"dni\": \"1234\",\n    \"nombre\": \"Pepe\",\n    \"apellidos\": \"Pérez\",\n    \"posicionNombre\": \"Defensa\",\n    \"equipoNombre\": \"Atletico de Madrid\"\n}",
+									"raw": "{\n    \"dni\": \"55537692Y\",\n    \"nombre\": \"Pepe\",\n    \"apellidos\": \"Pérez\",\n    \"posicionNombre\": \"Defensa\",\n    \"equipoNombre\": \"Atletico de Madrid\"\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -297,13 +299,25 @@
 									]
 								}
 							},
-							"status": "OK",
-							"code": 200,
+							"status": "Created",
+							"code": 201,
 							"_postman_previewlanguage": "json",
 							"header": [
 								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Vary",
+									"value": "Access-Control-Request-Method"
+								},
+								{
+									"key": "Vary",
+									"value": "Access-Control-Request-Headers"
+								},
+								{
 									"key": "Content-Type",
-									"value": "application/json;charset=UTF-8"
+									"value": "application/json"
 								},
 								{
 									"key": "Transfer-Encoding",
@@ -311,22 +325,30 @@
 								},
 								{
 									"key": "Date",
-									"value": "Mon, 27 Nov 2023 12:58:41 GMT"
+									"value": "Sat, 16 Dec 2023 15:31:10 GMT"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=60"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
 								}
 							],
 							"cookie": [],
-							"body": "{\n    \"dni\": \"1234\",\n    \"nombre\": \"Pepe\",\n    \"apellidos\": \"Pérez\",\n    \"alias\": null,\n    \"imagen\": null,\n    \"posicionNombre\": \"Defensa\",\n    \"equipoNombre\": \"Atletico de Madrid\"\n}"
+							"body": "{\n    \"dni\": \"55537692Y\",\n    \"nombre\": \"Pepe\",\n    \"apellidos\": \"Pérez\",\n    \"alias\": null,\n    \"imagen\": null,\n    \"posicionNombre\": \"Defensa\",\n    \"equipoNombre\": \"Atletico de Madrid\"\n}"
 						}
 					]
 				},
 				{
 					"name": "updateJugador",
 					"request": {
-						"method": "POST",
+						"method": "PUT",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"dni\": \"1234\",\n    \"nombre\": \"Pepe\",\n    \"apellidos\": \"Pérez Pérez\",\n    \"posicionNombre\": \"Delantero\",\n    \"equipoNombre\": \"Atletico de Madrid\"\n}",
+							"raw": "{\n    \"dni\": \"55537692Y\",\n    \"nombre\": \"Pepe\",\n    \"apellidos\": \"Pérez Pérez\",\n    \"posicionNombre\": \"Delantero\",\n    \"equipoNombre\": \"Atletico de Madrid\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -334,27 +356,26 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8022/jugador/1234",
+							"raw": "http://localhost:8022/jugador",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "8022",
 							"path": [
-								"jugador",
-								"1234"
+								"jugador"
 							]
 						}
 					},
 					"response": [
 						{
-							"name": "addJugador",
+							"name": "updateJugador",
 							"originalRequest": {
-								"method": "POST",
+								"method": "PUT",
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"dni\": \"1234\",\n    \"nombre\": \"Pepe\",\n    \"apellidos\": \"Pérez\",\n    \"posicionNombre\": \"Defensa\",\n    \"equipoNombre\": \"Atletico de Madrid\"\n}",
+									"raw": "{\n    \"dni\": \"55537692Y\",\n    \"nombre\": \"Pepe\",\n    \"apellidos\": \"Pérez Pérez\",\n    \"posicionNombre\": \"Delantero\",\n    \"equipoNombre\": \"Atletico de Madrid\"\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -378,8 +399,20 @@
 							"_postman_previewlanguage": "json",
 							"header": [
 								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Vary",
+									"value": "Access-Control-Request-Method"
+								},
+								{
+									"key": "Vary",
+									"value": "Access-Control-Request-Headers"
+								},
+								{
 									"key": "Content-Type",
-									"value": "application/json;charset=UTF-8"
+									"value": "application/json"
 								},
 								{
 									"key": "Transfer-Encoding",
@@ -387,11 +420,19 @@
 								},
 								{
 									"key": "Date",
-									"value": "Mon, 27 Nov 2023 12:58:41 GMT"
+									"value": "Sat, 16 Dec 2023 15:34:44 GMT"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=60"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
 								}
 							],
 							"cookie": [],
-							"body": "{\n    \"dni\": \"1234\",\n    \"nombre\": \"Pepe\",\n    \"apellidos\": \"Pérez\",\n    \"alias\": null,\n    \"imagen\": null,\n    \"posicionNombre\": \"Defensa\",\n    \"equipoNombre\": \"Atletico de Madrid\"\n}"
+							"body": "{\n    \"dni\": \"55537692Y\",\n    \"nombre\": \"Pepe\",\n    \"apellidos\": \"Pérez Pérez\",\n    \"alias\": null,\n    \"imagen\": null,\n    \"posicionNombre\": \"Delantero\",\n    \"equipoNombre\": \"Atletico de Madrid\"\n}"
 						}
 					]
 				},
@@ -456,7 +497,7 @@
 								},
 								{
 									"key": "Date",
-									"value": "Mon, 27 Nov 2023 15:43:22 GMT"
+									"value": "Sat, 16 Dec 2023 15:33:13 GMT"
 								},
 								{
 									"key": "Keep-Alive",
@@ -468,7 +509,7 @@
 								}
 							],
 							"cookie": [],
-							"body": "[\n    {\n        \"dni\": \"1234\",\n        \"nombre\": \"Pepe\",\n        \"apellidos\": \"Pérez\",\n        \"alias\": null,\n        \"imagen\": null,\n        \"posicionNombre\": \"Defensa\",\n        \"equipoNombre\": \"Atletico de Madrid\"\n    },\n    {\n        \"dni\": \"123444576\",\n        \"nombre\": \"Pepe\",\n        \"apellidos\": \"Pérez\",\n        \"alias\": null,\n        \"imagen\": null,\n        \"posicionNombre\": \"Defensa\",\n        \"equipoNombre\": \"Atletico de Madrid\"\n    },\n    {\n        \"dni\": \"12344576\",\n        \"nombre\": \"Pepe\",\n        \"apellidos\": \"Pérez\",\n        \"alias\": null,\n        \"imagen\": null,\n        \"posicionNombre\": \"Defensa\",\n        \"equipoNombre\": \"Atletico de Madrid\"\n    },\n    {\n        \"dni\": \"12345\",\n        \"nombre\": \"Pepe\",\n        \"apellidos\": \"Pérez\",\n        \"alias\": null,\n        \"imagen\": null,\n        \"posicionNombre\": \"Defensa\",\n        \"equipoNombre\": \"Atletico de Madrid\"\n    },\n    {\n        \"dni\": \"123456\",\n        \"nombre\": \"Pepe\",\n        \"apellidos\": \"Pérez\",\n        \"alias\": null,\n        \"imagen\": null,\n        \"posicionNombre\": \"Defensa\",\n        \"equipoNombre\": \"Atletico de Madrid\"\n    },\n    {\n        \"dni\": \"1234576\",\n        \"nombre\": \"Pepe\",\n        \"apellidos\": \"Pérez\",\n        \"alias\": null,\n        \"imagen\": null,\n        \"posicionNombre\": \"Defensa\",\n        \"equipoNombre\": \"Atletico de Madrid\"\n    },\n    {\n        \"dni\": \"142444576\",\n        \"nombre\": \"Pepe\",\n        \"apellidos\": \"Pérez\",\n        \"alias\": null,\n        \"imagen\": null,\n        \"posicionNombre\": \"Defensa\",\n        \"equipoNombre\": \"Atletico de Madrid\"\n    },\n    {\n        \"dni\": \"142445576\",\n        \"nombre\": \"Pepe\",\n        \"apellidos\": \"Pérez\",\n        \"alias\": null,\n        \"imagen\": null,\n        \"posicionNombre\": \"Defensa\",\n        \"equipoNombre\": \"Atletico de Madrid\"\n    },\n    {\n        \"dni\": \"142445676\",\n        \"nombre\": \"Pepe\",\n        \"apellidos\": \"Pérez\",\n        \"alias\": null,\n        \"imagen\": null,\n        \"posicionNombre\": \"Defensa\",\n        \"equipoNombre\": \"Atletico de Madrid\"\n    }\n]"
+							"body": "[\n    {\n        \"dni\": \"03826385J\",\n        \"nombre\": \"Pepe\",\n        \"apellidos\": \"Pérez\",\n        \"alias\": null,\n        \"imagen\": null,\n        \"posicionNombre\": \"Portero\",\n        \"equipoNombre\": \"Atletico de Madrid\"\n    },\n    {\n        \"dni\": \"42068554J\",\n        \"nombre\": \"Pepe\",\n        \"apellidos\": \"Pérez\",\n        \"alias\": null,\n        \"imagen\": null,\n        \"posicionNombre\": \"Defensa\",\n        \"equipoNombre\": \"Atletico de Madrid\"\n    },\n    {\n        \"dni\": \"55537692Y\",\n        \"nombre\": \"Pepe\",\n        \"apellidos\": \"Pérez\",\n        \"alias\": null,\n        \"imagen\": null,\n        \"posicionNombre\": \"Defensa\",\n        \"equipoNombre\": \"Atletico de Madrid\"\n    },\n    {\n        \"dni\": \"80642821Z\",\n        \"nombre\": \"Pepe\",\n        \"apellidos\": \"Pérez\",\n        \"alias\": null,\n        \"imagen\": null,\n        \"posicionNombre\": \"Portero\",\n        \"equipoNombre\": \"Atletico de Madrid\"\n    },\n    {\n        \"dni\": \"81828250T\",\n        \"nombre\": \"Pepe\",\n        \"apellidos\": \"Pérez\",\n        \"alias\": null,\n        \"imagen\": null,\n        \"posicionNombre\": \"Portero\",\n        \"equipoNombre\": \"Atletico de Madrid\"\n    }\n]"
 						}
 					]
 				}
@@ -632,26 +673,11 @@
 			]
 		},
 		{
-			"name": "getAllPosiciones",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "http://localhost:8022/posiciones",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8022",
-					"path": [
-						"posiciones"
-					]
-				}
-			},
-			"response": [
+			"name": "posiciones",
+			"item": [
 				{
 					"name": "getAllPosiciones",
-					"originalRequest": {
+					"request": {
 						"method": "GET",
 						"header": [],
 						"url": {
@@ -666,25 +692,124 @@
 							]
 						}
 					},
-					"status": "OK",
-					"code": 200,
-					"_postman_previewlanguage": "json",
-					"header": [
+					"response": [
 						{
-							"key": "Content-Type",
-							"value": "application/json;charset=UTF-8"
-						},
-						{
-							"key": "Transfer-Encoding",
-							"value": "chunked"
-						},
-						{
-							"key": "Date",
-							"value": "Mon, 27 Nov 2023 13:00:59 GMT"
+							"name": "getAllPosiciones",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8022/posiciones",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8022",
+									"path": [
+										"posiciones"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json;charset=UTF-8"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 27 Nov 2023 13:00:59 GMT"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \"nombre\": \"Defensa\",\n        \"maxJugadores\": 8\n    },\n    {\n        \"nombre\": \"Delantero\",\n        \"maxJugadores\": 6\n    },\n    {\n        \"nombre\": \"Medio\",\n        \"maxJugadores\": 8\n    },\n    {\n        \"nombre\": \"Portero\",\n        \"maxJugadores\": 3\n    }\n]"
 						}
-					],
-					"cookie": [],
-					"body": "[\n    {\n        \"nombre\": \"Defensa\",\n        \"maxJugadores\": 8\n    },\n    {\n        \"nombre\": \"Delantero\",\n        \"maxJugadores\": 6\n    },\n    {\n        \"nombre\": \"Medio\",\n        \"maxJugadores\": 8\n    },\n    {\n        \"nombre\": \"Portero\",\n        \"maxJugadores\": 3\n    }\n]"
+					]
+				},
+				{
+					"name": "getPosicionesEquipo",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8022/posiciones/Atletico de Madrid",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8022",
+							"path": [
+								"posiciones",
+								"Atletico de Madrid"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "getPosicionesEquipo",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8022/posiciones/Atletico de Madrid",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8022",
+									"path": [
+										"posiciones",
+										"Atletico de Madrid"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Vary",
+									"value": "Access-Control-Request-Method"
+								},
+								{
+									"key": "Vary",
+									"value": "Access-Control-Request-Headers"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 16 Dec 2023 15:32:14 GMT"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=60"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \"nombre\": \"Defensa\",\n        \"maxJugadores\": 8\n    },\n    {\n        \"nombre\": \"Delantero\",\n        \"maxJugadores\": 6\n    },\n    {\n        \"nombre\": \"Medio\",\n        \"maxJugadores\": 8\n    }\n]"
+						}
+					]
 				}
 			]
 		},
@@ -800,7 +925,7 @@
 						}
 					],
 					"cookie": [],
-					"body": "[\n    {\n        \"plantillaID\": {\n            \"equipoNombre\": \"Atletico de Madrid\",\n            \"posicion\": \"Defensa\"\n        },\n        \"numJugadores\": 0\n    },\n    {\n        \"plantillaID\": {\n            \"equipoNombre\": \"Atletico de Madrid\",\n            \"posicion\": \"Delantero\"\n        },\n        \"numJugadores\": 0\n    },\n    {\n        \"id\": {\n            \"equipoNombre\": \"Atletico de Madrid\",\n            \"posicion\": \"Medio\"\n        },\n        \"numJugadores\": 0\n    },\n    {\n        \"id\": {\n            \"equipoNombre\": \"Atletico de Madrid\",\n            \"posicion\": \"Portero\"\n        },\n        \"numJugadores\": 0\n    }\n]"
+					"body": "[\n    {\n        \"id\": {\n            \"equipoNombre\": \"Atletico de Madrid\",\n            \"posicion\": \"Defensa\"\n        },\n        \"numJugadores\": 0\n    },\n    {\n        \"id\": {\n            \"equipoNombre\": \"Atletico de Madrid\",\n            \"posicion\": \"Delantero\"\n        },\n        \"numJugadores\": 0\n    },\n    {\n        \"id\": {\n            \"equipoNombre\": \"Atletico de Madrid\",\n            \"posicion\": \"Medio\"\n        },\n        \"numJugadores\": 0\n    },\n    {\n        \"id\": {\n            \"equipoNombre\": \"Atletico de Madrid\",\n            \"posicion\": \"Portero\"\n        },\n        \"numJugadores\": 0\n    }\n]"
 				}
 			]
 		}

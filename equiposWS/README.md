@@ -305,6 +305,26 @@ Obtains all _posiciones_.
     - `404`: There are no _posiciones_.
 
 
+#### getPosicionesEquipo
+Obtains all free _posiciones_ for an especified _equipo_.
+
+- **REQUEST**
+    - **Method:** `GET`
+    - **URL:** `/posiciones/{equipo}`
+- **RESPONSES**
+    - `200`: OK. Returns list of _posiciones_:
+        ```
+        [
+            {
+                "nombre": string,
+                "maxJugadores": int
+            },
+            ...
+        ]
+        ```
+    - `404`: There are no _posiciones_ left free.
+
+
 #### getPlantillaEquipo
 Obtains all _plantillas_ for an specific _equipo_.
 
