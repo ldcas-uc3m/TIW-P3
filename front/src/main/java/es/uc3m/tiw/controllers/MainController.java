@@ -1,6 +1,8 @@
 package es.uc3m.tiw.controllers;
 
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
@@ -11,6 +13,7 @@ import org.springframework.web.client.RestTemplate;
 
 import es.uc3m.tiw.entities.Equipo;
 import es.uc3m.tiw.entities.Jugador;
+import es.uc3m.tiw.entities.Mensaje;
 import es.uc3m.tiw.entities.Plantilla;
 import es.uc3m.tiw.entities.PlantillaKey;
 import es.uc3m.tiw.entities.Posicion;
@@ -33,7 +36,7 @@ public class MainController {
 
 	/* JUGADORES */
 
-    @GetMapping("/formNewJugador")
+    @GetMapping("/pagina-form-NewJugador")
     public String formNewJugador(Model modelo) {
 
 		// get posiciones
@@ -57,7 +60,7 @@ public class MainController {
 		modelo.addAttribute("jugador", jugador);
 
 		// get posiciones
-		Posicion[] posiciones = restTemplate.getForObject("http://localhost:8022/posiciones/", Posicion[].class);
+		Posicion[] posiciones = restTemplate.getForObject("http://localhost:8022/posiciones", Posicion[].class);
 		modelo.addAttribute("posiciones", posiciones);
 
 		// get equipos
@@ -72,8 +75,25 @@ public class MainController {
 
 	@PostMapping ("post-jugador")
 	public String saveJugador(Model model, @ModelAttribute Jugador ju) {
-		Jugador newJugador = restTemplate.postForObject("http://localhost:8022/jugador", ju, Jugador.class);
-		model.addAttribute("jugador", newJugador);
+
+		try {
+			Jugador newJugador = restTemplate.postForObject("http://localhost:8022/jugador", ju, Jugador.class);
+			model.addAttribute("jugador", newJugador);
+		}
+		catch(HttpClientErrorException ex) {  // different from 200
+
+			switch (ex.getStatusCode()) {
+				case BAD_REQUEST:
+					String msg = "Invalid data";
+					System.out.println(msg);
+					model.addAttribute("error", msg);
+					break;
+				default:
+					break;
+			}
+
+			return formNewJugador(model);
+		}
 
 		return returnTodosJugadoresUs(model);
 	}
@@ -96,7 +116,7 @@ public class MainController {
 		return returnTodosJugadoresAd(model);
 	}
 	
-	@PostMapping ("update-jugador/{dni}")
+	/*@PostMapping ("update-jugador/{dni}")
 	public String updateJugador(Model model, @ModelAttribute Jugador ju, @PathVariable dni) {
 
 		try {
@@ -127,7 +147,7 @@ public class MainController {
     }
 
     @PostMapping("/loginAdmin")
-    public String loginAdmin(Model modelo, @ModelAttribute Administrador ad) {
+    public String loginAdmin(Model modelo, HttpSession session, @ModelAttribute Administrador ad) {
 
 		try {
 			restTemplate.postForObject("http://localhost:8021/Adminlogin", ad, String.class);
@@ -138,15 +158,19 @@ public class MainController {
 				String msg = "Invalid credentials";
 				System.out.println(msg);
 				modelo.addAttribute("error", msg);
+
+				return gotLoginAdministrador(modelo);
 			}
 		}
+
+		session.setAttribute("user", ad.getAdminCorreo());
 
         return returnTodosJugadoresAd(modelo);
     }
 
 
 	@GetMapping("/pagina-login-usuario")
-    public String gotLoginUsuario(Model modelo) {
+    public String gotLoginUsuario(Model modelo ) {
 		// get equipos
 		Equipo[] equipos = restTemplate.getForObject("http://localhost:8022/equipos", Equipo[].class);
 		modelo.addAttribute("equipos", equipos);
@@ -157,12 +181,25 @@ public class MainController {
     }
 
     @PostMapping ("/loginUsuario")
-	public String loginUsuario(Model model, @ModelAttribute Usuario us) {
-		Usuario newUser = restTemplate.postForObject("http://localhost:8021/Userlogin", us, Usuario.class);
+	public String loginUsuario(Model model, HttpSession session, @ModelAttribute Usuario us) {
+		try {
+			restTemplate.postForObject("http://localhost:8021/Userlogin", us, String.class);
+		}
+		catch(HttpClientErrorException ex) {  // different from 200
 
-		model.addAttribute("usuario", newUser);
+			if (ex.getStatusCode() == HttpStatus.BAD_REQUEST) {
+				String msg = "Invalid credentials";
+				System.out.println(msg);
+				model.addAttribute("error", msg);
 
-		return returnTodosJugadoresUs(model);
+				return gotLoginUsuario(model);
+
+			}
+		}
+
+		session.setAttribute("user", us.getUserCorreo());
+
+        return returnTodosJugadoresUs(model);
 	}
 
 
@@ -205,6 +242,45 @@ public class MainController {
 		return "viewTodosJugadoresAd";
 	}
 
+	/* CRUD CONTROLADOR - CHATS */
 
+	@GetMapping("/formMessage")
+    public String formMessage(Model modelo) {
+
+		// create bean for jugador
+		modelo.addAttribute("mensaje", new Mensaje());
+
+        return "formMessage";  // Devuelve el nombre de la plantilla Thymeleaf (sin extensión .html)
+    }
+
+	@PostMapping ("post-mensaje")
+	public String saveMensaje(Model model, HttpSession session, @ModelAttribute Mensaje me) {
+
+		me.setEmailori(session.getAttribute("user").toString());
+
+		Mensaje newMensaje = restTemplate.postForObject("http://localhost:8080/mensaje", me, Mensaje.class);
+		model.addAttribute("mensaje", newMensaje);
+
+		return returnTodosMensajes(model, session);
+	}
+
+
+	@GetMapping ("pagina-todos-mensajes")
+	public String returnTodosMensajes(Model model, HttpSession session) {
+		try {
+			Mensaje[] listaMe = restTemplate.getForObject("http://localhost:8080/mensajes/{user}", Mensaje[].class, session.getAttribute("user").toString());
+			model.addAttribute("mensajeList", listaMe);
+		}
+		catch(HttpClientErrorException ex) {  // different from 200
+
+			if (ex.getStatusCode() == HttpStatus.NOT_FOUND) {
+				String msg = "No mensajes found";
+				System.out.println(msg);
+				model.addAttribute("error", msg);
+			}
+		}
+		
+		return "viewMensajes";
+	}
 
 }
