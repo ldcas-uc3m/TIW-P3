@@ -597,7 +597,7 @@
 								},
 								{
 									"key": "Date",
-									"value": "Wed, 29 Nov 2023 11:52:03 GMT"
+									"value": "Sat, 16 Dec 2023 18:05:05 GMT"
 								},
 								{
 									"key": "Keep-Alive",
@@ -609,7 +609,7 @@
 								}
 							],
 							"cookie": [],
-							"body": "{\n    \"nombre\": \"Real Madrid\",\n    \"escudo\": null\n}"
+							"body": "{\n    \"nombre\": \"Real Madrid\"\n}"
 						}
 					]
 				},
@@ -653,8 +653,20 @@
 							"_postman_previewlanguage": "json",
 							"header": [
 								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Vary",
+									"value": "Access-Control-Request-Method"
+								},
+								{
+									"key": "Vary",
+									"value": "Access-Control-Request-Headers"
+								},
+								{
 									"key": "Content-Type",
-									"value": "application/json;charset=UTF-8"
+									"value": "application/json"
 								},
 								{
 									"key": "Transfer-Encoding",
@@ -662,11 +674,19 @@
 								},
 								{
 									"key": "Date",
-									"value": "Mon, 27 Nov 2023 13:00:46 GMT"
+									"value": "Sat, 16 Dec 2023 18:05:13 GMT"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=60"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
 								}
 							],
 							"cookie": [],
-							"body": "[\n    {\n        \"nombre\": \"Atletico de Madrid\",\n        \"escudo\": null\n    }\n]"
+							"body": "[\n    {\n        \"nombre\": \"Atletico de Madrid\"\n    },\n    {\n        \"nombre\": \"Real Madrid\"\n    }\n]"
 						}
 					]
 				}
@@ -810,6 +830,61 @@
 							"body": "[\n    {\n        \"nombre\": \"Defensa\",\n        \"maxJugadores\": 8\n    },\n    {\n        \"nombre\": \"Delantero\",\n        \"maxJugadores\": 6\n    },\n    {\n        \"nombre\": \"Medio\",\n        \"maxJugadores\": 8\n    }\n]"
 						}
 					]
+				}
+			]
+		},
+		{
+			"name": "imagenes",
+			"item": [
+				{
+					"name": "putImage",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "image",
+									"type": "file",
+									"src": "/C:/Users/ldcas/Pictures/hey.png"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8022/imagen/55537692Y",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8022",
+							"path": [
+								"imagen",
+								"55537692Y"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getImage",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8022/imagen/55537692Y",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8022",
+							"path": [
+								"imagen",
+								"55537692Y"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},

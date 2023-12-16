@@ -1,6 +1,7 @@
 package es.uc3m.tiw.controllers;
 
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -13,18 +14,22 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.http.MediaType;
 
 
 import es.uc3m.tiw.entities.Equipo;
+import es.uc3m.tiw.entities.Imagen;
 import es.uc3m.tiw.entities.Jugador;
 import es.uc3m.tiw.entities.Plantilla;
 import es.uc3m.tiw.entities.PlantillaKey;
 import es.uc3m.tiw.entities.Posicion;
 import es.uc3m.tiw.repositories.EquipoDAO;
+import es.uc3m.tiw.repositories.ImageDataRepository;
 import es.uc3m.tiw.repositories.JugadorDAO;
 import es.uc3m.tiw.repositories.PlantillaDAO;
 import es.uc3m.tiw.repositories.PosicionDAO;
+import es.uc3m.tiw.service.ImageService;
 import es.uc3m.tiw.utils.ValidadorDNI;
 
 
@@ -35,16 +40,22 @@ public class MainController {
     /* REPOSITORIOS */
 
     @Autowired
-    JugadorDAO daoJug;
+    private JugadorDAO daoJug;
 
     @Autowired
-    EquipoDAO daoEq;
+    private EquipoDAO daoEq;
 
     @Autowired
-    PlantillaDAO daoPlan;
+    private PlantillaDAO daoPlan;
 
     @Autowired
-    PosicionDAO daoPos;
+    private PosicionDAO daoPos;
+
+    @Autowired
+    private ImageService imageDataService;
+
+    @Autowired
+    private ImageDataRepository imageDataRepository;
 
 
     private Map<String, String> generateError(String code, String message) {
@@ -300,6 +311,44 @@ public class MainController {
 	}
 
 
+    /* IMAGENES */
+
+    @GetMapping(path = "/imagen/{dni}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> getImage(@PathVariable String dni) {
+
+        byte[] image = imageDataService.getImage(dni);
+
+		if (image == null)
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+
+        return ResponseEntity.status(HttpStatus.OK).contentType(MediaType.valueOf("image/png")).body(image);
+    }
+
+
+    @PutMapping(path = "/imagen/{dni}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Jugador> putImage(@RequestParam("image") MultipartFile file, @PathVariable String dni) {
+        // check if jugador exists
+		if (daoJug.findById(dni).isEmpty())
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+
+        // overwriting
+        Optional<Imagen> img = imageDataRepository.findByjugadorDni(dni);
+        if (!img.isEmpty()) { // img exists
+            imageDataRepository.delete(img.get());
+        }
+
+        // upload file
+        try {
+            imageDataService.uploadImage(file, dni);
+        }
+        catch (IOException ex) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+
     /* EQUIPOS */
 
     @GetMapping(path = "/equipos", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -312,8 +361,6 @@ public class MainController {
         return new ResponseEntity<>(equipos, HttpStatus.OK);
     }
 
-
-    // TODO: fix images (putImage, getImage)
 
     @PostMapping(path = "/equipo", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> addEquipo(@RequestBody @Validated Equipo nu_equipo) {

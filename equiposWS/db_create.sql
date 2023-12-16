@@ -2,6 +2,7 @@ CREATE DATABASE IF NOT EXISTS `tiwp3` DEFAULT CHARACTER SET utf8;
 USE `tiwp3`;
 
 
+DROP TABLE IF EXISTS `imagenes`;
 DROP TABLE IF EXISTS `jugadores`;
 DROP TABLE IF EXISTS `plantillas`;
 DROP TABLE IF EXISTS `equipos`;
@@ -19,7 +20,6 @@ ENGINE = InnoDB;
 
 CREATE TABLE IF NOT EXISTS `equipos` (
   `nombre` VARCHAR(45) NOT NULL,
-  `escudo` LONGBLOB NULL,
   PRIMARY KEY (`nombre`)
 )
 ENGINE = InnoDB;
@@ -50,7 +50,6 @@ CREATE TABLE IF NOT EXISTS `jugadores` (
   `nombre` VARCHAR(20) NOT NULL,
   `apellidos` VARCHAR(45) NOT NULL,
   `alias` VARCHAR(20) NULL,
-  `imagen` LONGBLOB NULL,
   `posicion_nombre` VARCHAR(15) NOT NULL,
   `equipo_nombre` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`dni`),
@@ -62,6 +61,22 @@ CREATE TABLE IF NOT EXISTS `jugadores` (
   CONSTRAINT `fk_jugadores_equipo`
     FOREIGN KEY (`equipo_nombre`)
     REFERENCES `equipos` (`nombre`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION
+)
+ENGINE = InnoDB;
+
+
+CREATE TABLE IF NOT EXISTS `imagenes` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `jugador_dni` VARCHAR(9) NOT NULL UNIQUE,
+  `name` VARCHAR(40) NULL,
+  `type` VARCHAR(15) NULL,
+  `imagedata` LONGBLOB NULL,
+  PRIMARY KEY (`id`),
+  CONSTRAINT `fk_imagenes_jugador`
+    FOREIGN KEY (`jugador_dni`)
+    REFERENCES `jugadores` (`dni`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION
 )

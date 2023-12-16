@@ -3,6 +3,9 @@ WebService for DB access.
 
 ## API specification
 
+
+### Jugadores
+
 #### `getAllJugadores`
 Obtains a list of all _jugadores_.
 
@@ -18,7 +21,6 @@ Obtains a list of all _jugadores_.
                 "nombre": string,
                 "apellidos": string,
                 "alias": string | null,
-                "imagen": string | null,
                 "posicionNombre": string,
                 "equipoNombre": string
             },
@@ -43,7 +45,6 @@ Obtains a list of all _jugadores_ for an especific _equipo_.
                 "nombre": string,
                 "apellidos": string,
                 "alias": string | null,
-                "imagen": string | null,
                 "posicionNombre": string,
                 "equipoNombre": string
             },
@@ -74,7 +75,6 @@ Obtains an specific _jugador_.
             "nombre": string,
             "apellidos": string,
             "alias": string | null,
-            "imagen": string | null,
             "posicionNombre": string,
             "equipoNombre": string
         }
@@ -94,7 +94,6 @@ Adds a new _jugador_.
         "nombre": string,
         "apellidos": string,
         "alias": string | null,
-        "imagen": string | null,
         "posicionNombre": string,
         "equipoNombre": string
     }
@@ -107,7 +106,6 @@ Adds a new _jugador_.
             "nombre": string,
             "apellidos": string,
             "alias": string | null,
-            "imagen": string | null,
             "posicionNombre": string,
             "equipoNombre": string
         }
@@ -164,7 +162,6 @@ Deletes a _jugador_.
             "nombre": string,
             "apellidos": string,
             "alias": string | null,
-            "imagen": string | null,
             "posicionNombre": string,
             "equipoNombre": string
         }
@@ -184,7 +181,6 @@ Updates a _jugador_'s data. Overwrites everything.
             "nombre": string,
             "apellidos": string,
             "alias": string | null,
-            "imagen": string | null,
             "posicionNombre": string,
             "equipoNombre": string
         }
@@ -197,7 +193,6 @@ Updates a _jugador_'s data. Overwrites everything.
             "nombre": string,
             "apellidos": string,
             "alias": string | null,
-            "imagen": string | null,
             "posicionNombre": string,
             "equipoNombre": string
         }
@@ -235,6 +230,8 @@ Updates a _jugador_'s data. Overwrites everything.
     - `500`: Reached lower limit for _posicion_.
 
 
+## Equipos
+
 #### getAllEquipos
 Obtains all _equipos_.
 
@@ -247,7 +244,6 @@ Obtains all _equipos_.
         [
             {
                 "nombre": string,
-                "escudo": bytes | null
             },
             ...
         ]
@@ -264,8 +260,6 @@ Adds a new _equipo_, updating its _plantillas_.
     ```
     {
         "nombre": string,
-        "escudo": bytes | null
-        <!-- TODO: changeme -->
     }
     ```
 - **RESPONSES**
@@ -273,7 +267,6 @@ Adds a new _equipo_, updating its _plantillas_.
         ```
         {
             "nombre": string,
-            "escudo": bytes | null
         }
         ```
     - `400`: _Equipo_ exists:
@@ -284,6 +277,8 @@ Adds a new _equipo_, updating its _plantillas_.
         }
         ```
 
+
+## Posiciones
 
 #### getAllPosiciones
 Obtains all _posiciones_.
@@ -325,6 +320,8 @@ Obtains all free _posiciones_ for an especified _equipo_.
     - `404`: There are no _posiciones_ left free.
 
 
+## Plantillas
+
 #### getPlantillaEquipo
 Obtains all _plantillas_ for an specific _equipo_.
 
@@ -353,6 +350,32 @@ Obtains all _plantillas_ for an specific _equipo_.
         }
         ```
     - `404`: There are no _posiciones_.
+
+
+## Imagenes
+
+#### putImage
+Uploads a _imagen_ for an specific _jugador_.
+
+- **REQUEST**
+    - **Method:** `PUT`
+    - **URL:** `/imagen/<dni>`
+- **RESPONSES**
+    - `200`: OK.
+    - `400`: Image error.
+    - `404`: _Jugador_ doesn't exist:
+
+
+#### getImage
+Downloads a _imagen_ from an specific _jugador_.
+
+- **REQUEST**
+    - **Method:** `GET`
+    - **URL:** `/imagen/<dni>`
+- **RESPONSES**
+    - `200`: OK. Returns image (`image/png`).
+    - `404`: _Jugador_ doesn't exist.
+
 
 
 #### coffee

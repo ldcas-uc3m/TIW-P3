@@ -6,7 +6,6 @@ import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.Lob;
 import javax.persistence.Table;
 
 
@@ -17,7 +16,6 @@ public class Jugador implements Serializable {
 
     @Id
     private String dni;
-    // TODO: Validate DNI
 
     @Column(nullable = false)
     private String nombre;
@@ -26,9 +24,6 @@ public class Jugador implements Serializable {
     private String apellidos;
 
     private String alias;
-
-    @Lob
-    private byte[] imagen;
 
     @Column(name = "posicion_nombre", nullable = false)
     private String posicionNombre;
@@ -51,9 +46,6 @@ public class Jugador implements Serializable {
 
     public String getAlias() { return this.alias; }
     public void setAlias(String alias) { this.alias = alias; }
-
-    public byte[] getImagen() { return this.imagen; }
-    public void setImagen(byte[] imagen) { this.imagen = imagen; }
 
     public String getPosicionNombre() { return this.posicionNombre; }
     public void setPosicionNombre(String posicionNombre) { this.posicionNombre = posicionNombre; }
