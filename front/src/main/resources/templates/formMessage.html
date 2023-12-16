@@ -15,8 +15,11 @@
     <hr>
 
     <form action="#" th:action="@{/post-mensaje}" th:object="${mensaje}" method="POST">
+        <label for="id">From:</label>
+        <p th:text="${session.user}"/>
+        
         <label for="id">Introduce el destinatario (nombre del usuario)</label>
-        <input type="text" th:field="*{usuario}"
+        <input type="email" th:field="*{emaildest}"
                id="destinatario" placeholder="Destinatario" class="form-control mb-5 col-">
 
         <label for="nombre">Escribe el mensaje</label>
@@ -28,7 +31,7 @@
 
     <hr>
 
-    <a th:href = "@{/}"> Atras</a>
+    <a th:href = "@{/pagina-todos-mensajes}"> Atras</a>
 </div>
 </body>
 </html>

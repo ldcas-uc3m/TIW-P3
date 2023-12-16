@@ -15,12 +15,20 @@
 <body style="margin-left: 5%; margin-right: 5%; margin-top: 15px">
 <h2>Mensajes recibidos</h2>
 
+<a th:href="@{/formMessage}" class="btn btn-primary btn-sm mb-5"> Escribe a otro usuario </a>
+
+
 <table style="border: 1px" class = "table table-striped table-responsive-md">
     <thead>
     <tr>
         <th>
             <a>Enviado por: </a>
         </th>
+
+        <th>
+            <a>Siendo el destinatario: </a>
+        </th>
+
         <th>
             <a>Mensaje: </a>
         </th>
@@ -35,7 +43,7 @@
     </tr>
     </tbody>
 </table>
-<a th:href="@{/}" class="btn btn-primary btn-sm mb-5">Atrás</a>
+<a th:href="@{/pagina-todos-jugadores-admin}" class="btn btn-primary btn-sm mb-5">Atrás</a>
 
 </body>
 </html>
