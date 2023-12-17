@@ -17,6 +17,17 @@
 
 <a th:href="@{/viewMensajes}" class="btn btn-primary btn-sm mb-5"> Ver chats </a>
 
+<br>
+<form action="#" th:action="@{/pagina-todos-jugadores-user}" method="GET">
+
+    <label for="cars">Seleccionar equipo</label>
+        <select name="equipoNombre" class="form-control mb-5 col-2">
+            <option th:each="equipo : ${equipos}" th:value="${equipo.nombre}" th:text="${equipo.nombre}"></option>
+        </select>
+    <button type="submit" class="btn btn-info col-2"> Ver </button>
+</form>
+
+
 <p th:if="${error}" th:text="${error}"></p>
 
 <table th:unless="${error}" style="border: 1px" class = "table table-striped table-responsive-md">
@@ -34,9 +45,9 @@
         <th>
             <a>Alias</a>
         </th>
-        <!-- <th>
+        <th>
             <a>Imagen</a>
-        </th> -->
+        </th>
         <th>
             <a>Posición</a>
         </th>
@@ -51,6 +62,9 @@
         <td th:text="${jugador.nombre}"></td>
         <td th:text="${jugador.apellidos}"></td>
         <td th:text="${jugador.alias}"></td>
+        <td>
+            <img th:src="@{http://localhost:8022/imagen/{dni}(dni=${jugador.dni})}">
+        </td>
         <td th:text="${jugador.posicionNombre}"></td>
         <td th:text="${jugador.equipoNombre}"></td>
     </tr>

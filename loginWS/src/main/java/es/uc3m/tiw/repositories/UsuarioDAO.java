@@ -6,5 +6,5 @@ import es.uc3m.tiw.entities.Usuario;
 
 public interface UsuarioDAO extends CrudRepository<Usuario, String>{
     public List<Usuario> findAll();
-    /*public List<Usuario> findByUserCorreo(String correo);*/
+    public Usuario findByCorreo(String correo);
 }

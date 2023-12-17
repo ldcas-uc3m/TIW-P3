@@ -76,6 +76,15 @@ public class MainController {
         return new ResponseEntity<>(usuario, HttpStatus.OK);
     }
 
+    @GetMapping("/usuarios/{user}")
+    public ResponseEntity<Usuario> getUsuario(@PathVariable String user) {
+        Usuario usuario = daoUser.findByCorreo(user);
+        if (usuario == null)
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+
+        return new ResponseEntity<>(usuario, HttpStatus.OK);
+    }
+
     @GetMapping("/adminpassword")
     public ResponseEntity<List<AdminPassword>> getAllAdminPasswords() {
         List<AdminPassword> adminpas = daoAdminPas.findAll();

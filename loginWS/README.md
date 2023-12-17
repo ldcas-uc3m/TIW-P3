@@ -10,16 +10,13 @@ Stores new users on the database.
     - **Method:** `POST`
     - **URL:** `/registrarUsuario`
         ```
-        [
-            {
-                "userCorreo": string,
-                "userEquipo": string|null,
-                "userApellido": string,
-                "userPassword": string,
-                "userNombre": string
-            },
-            ...
-        ]
+        {
+            "userCorreo": string,
+            "userEquipo": string|null,
+            "userApellido": string,
+            "userPassword": string,
+            "userNombre": string
+        }
         ```
 - **RESPONSES**
     - `200`: OK. Returns list of _usuarios_:
@@ -108,6 +105,24 @@ Logs if the values correspond to those in _administrador_.
         ```
 
 
+#### getUsuario
+Gets the data from the specified _usuario_.
+
+- **REQUEST**
+    - **Method:** `Get`
+    - **URL:** `/usuarios/{userCorreo}`
+- **RESPONSES**
+    - `200`: OK. Returns successful message:
+        ```
+        {
+            "userPassword": string,
+            "userEquipo": string,
+            "userCorreo": string,
+            "userNombre": string,
+            "userApellido": string
+        }
+        ```
+    - `404`: _Usuario_ doesn't exist.
 
 #### coffee
 Brews a cup of coffee.

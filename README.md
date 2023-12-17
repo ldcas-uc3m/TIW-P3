@@ -31,7 +31,7 @@ Los usuarios podrán intercambiar mensajes entre ellos a modo de chat.
 
 ### Componentes / microservicios de la aplicación
 
-- Una aplicación que será el frontal que estará corriendo en el puerto 8020
+- Una aplicación que será el frontal que estará corriendo en el puerto 8020 ([`chatWS`](chatWS))
 - Un microservicio de usuarios, estará corriendo en el puerto 8021
 - Un microservicio de equipos y plantilla, estará corriendo en el puerto 8022
 - Un microservicio de mensajes, estará corriendo en el puerto 8080
@@ -46,4 +46,5 @@ Las restricciones por cada equipo son las siguientes:
 
 ## Instalación y ejecución
 
-
+Accede a la carpeta de cada componente ([`chatWS`](chatWS), [`equiposWS`](equiposWS), [`front`](front), [`loginWS`](loginWS)) y sigue las instrucciones para ejecutarlos todos.  
+Una vez hecho eso, entra en http://localhost:8020 para acceder al frontal de la aplicación. No es bonito (ni por fuera ni por dentro), pero funciona.
