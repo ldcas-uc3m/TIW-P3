@@ -7,7 +7,7 @@
     2. Execute it. Select `Complete version` and `Run service as Network Service user`. Later make sure to select the option to download Compass.
     3. Copy the route to Mongo server. The default one should be the following depending on the version downloaded: `C:\Program Files\MongoDB\Server\5.0\bin`
     4. Go to `Este Equipo` > `Propiedades` > `Confifuración avanzada del sistema` > `Variables de entorno` and add a new path by copying the previous one.
-4. [Launch MongoDB (`mongod`)].(https://www.mongodb.com/docs/manual/tutorial/manage-mongodb-processes/).
+4. [Launch MongoDB (`mongod`)](https://www.mongodb.com/docs/manual/tutorial/manage-mongodb-processes/).
 5. Run the [`db_create.js`](db_create.js) script in MongoDB to create the `mensajes` collection inside the `mschat` database:
     ```
     mongosh --file db_create.js
