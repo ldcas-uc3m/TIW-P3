@@ -36,9 +36,10 @@
     </thead>
     <tbody>
     <!-- CAMBIAR ESTO PARA SACAR LOS MENSAJES  -->
-    <tr th:each="equipos : ${equiposLista}">    
-        <td th:text="${equipos.id}"></td>
-        <td th:text="${equipos.escudo}"></td>
+    <tr th:each="mensaje : ${mensajeList}">    
+        <td th:text="${mensaje.emailori}"></td>
+        <td th:text="${mensaje.emaildest}"></td>
+        <td th:text="${mensaje.mensaje}"></td>
 
     </tr>
     </tbody>
