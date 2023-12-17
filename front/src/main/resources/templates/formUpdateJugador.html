@@ -16,7 +16,7 @@
 
 
     <form action="#" th:unless="${error}" th:action="@{/update-jugador/{dni}(dni=${jugador.dni})}" th:object="${jugador}" method="POST">
-              <p>DNI: <p th:field="*{dni}"/></p>
+              <p>DNI: <p th:field="*{dni}"></p>
               <p>Nombre: <input type="text" th:field="*{nombre}" class="form-control mb-5 col-"/></p>
               <p>Apellidos: <input type="text" th:field="*{apellidos}" class="form-control mb-5 col-"/></p>
               <p>Alias: <input type="text" th:field="*{alias}" class="form-control mb-5 col-"/></p>
